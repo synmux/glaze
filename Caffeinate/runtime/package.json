@@ -1,0 +1,20 @@
+{
+  "id": "24sfqlwq",
+  "name": "caffeinate",
+  "productName": "Caffeinate",
+  "description": "Keep your Mac awake on your schedule",
+  "version": "1.0.0",
+  "type": "module",
+  "glaze": {
+    "capabilities": {},
+    "sdkVersion": "0.14.3.0",
+    "createdAt": "2026-08-03T23:28:19.036Z",
+    "lastMigration": "tray-retina-icons",
+    "host": {
+      "minVersion": "0.14.3.0"
+    },
+    "updatedAt": 1785801338993,
+    "appId": "caffeinate-local-24sfqlwq",
+    "variant": "local"
+  }
+}

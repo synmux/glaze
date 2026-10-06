@@ -1,0 +1,20 @@
+{
+  "id": "24et23a7",
+  "name": "changes",
+  "productName": "Changes",
+  "description": "Get notified when websites change",
+  "version": "1.0.0",
+  "type": "module",
+  "glaze": {
+    "capabilities": {},
+    "sdkVersion": "0.14.3.0",
+    "createdAt": "2026-08-08T18:00:37.292Z",
+    "lastMigration": "tray-retina-icons",
+    "host": {
+      "minVersion": "0.14.3.0"
+    },
+    "updatedAt": 1786214665653,
+    "appId": "watch-url-local-24et23a7",
+    "variant": "local"
+  }
+}

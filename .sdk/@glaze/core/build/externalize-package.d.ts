@@ -1,0 +1,47 @@
+import { type Plugin } from "esbuild";
+export interface ExternalizePackageOptions {
+    /**
+     * Paths relative to each copied package root to skip during the copy
+     * (exact file or directory matches, not globs — a directory entry excludes
+     * its whole subtree). Applies to the named package and every copied
+     * transitive dependency. Each skip is logged, so nothing disappears
+     * silently. Used to drop npm tarball leftovers (e.g. a stray .env) that
+     * publishing rejects.
+     */
+    exclude?: string[];
+}
+interface ExternalizePackageResult {
+    /** esbuild plugin that copies all packages in onEnd */
+    plugin: Plugin;
+    /** List of package names to add to esbuild's `external` config */
+    externals: string[];
+}
+/**
+ * Creates an esbuild plugin + externals list for a package that can't be bundled.
+ *
+ * Use this when a package loads files from disk at runtime (e.g., jsdom loading
+ * CSS stylesheets via __dirname) or has complex dependency trees with native addons
+ * (e.g., sharp with platform-specific @img/* packages).
+ *
+ * This plugin:
+ * 1. Marks the package and all its transitive dependencies as external
+ * 2. Copies them to the build output's node_modules/ in onEnd
+ *
+ * Usage in glaze.config.ts:
+ *   import { defineConfig, externalizePackage } from "@glaze/core/build";
+ *
+ *   const sharp = externalizePackage("sharp");
+ *
+ *   export default defineConfig({
+ *     build: {
+ *       external: [...sharp.externals],
+ *       plugins: [sharp.plugin],
+ *     },
+ *   });
+ *
+ * @param packageName - The npm package name (e.g., "sharp", "jsdom")
+ * @param options - Configuration options for the externalize behavior
+ * @returns Object with `plugin` (esbuild Plugin) and `externals` (string[])
+ */
+export declare function externalizePackage(packageName: string, options?: ExternalizePackageOptions): ExternalizePackageResult;
+export {};

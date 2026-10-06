@@ -1,0 +1,133 @@
+type Fetch = typeof fetch;
+type OAuthExtraParameters = Record<string, string | number | boolean | undefined>;
+type OAuthProviderScope = string | string[];
+export declare class OAuthError extends Error {
+    readonly code: string;
+    constructor(message: string, code: string);
+}
+export declare class OAuthProviderError extends OAuthError {
+    readonly providerError: string;
+    readonly errorDescription?: string | undefined;
+    constructor(providerError: string, errorDescription?: string | undefined);
+}
+export interface OAuthTokensInput {
+    accessToken: string;
+    refreshToken?: string;
+    idToken?: string;
+    expiresIn?: number;
+    scope?: string;
+    tokenType?: string;
+    updatedAt?: Date;
+}
+export interface OAuthTokens extends OAuthTokensInput {
+    updatedAt: Date;
+    isExpired(): boolean;
+}
+export declare class OAuthTokenStore {
+    get(providerId: string): Promise<OAuthTokens | null>;
+    set(providerId: string, tokens: OAuthTokensInput): Promise<void>;
+    remove(providerId: string): Promise<void>;
+    private getStorePath;
+    private readStoreFile;
+    private writeStoreFile;
+}
+export interface OAuthRelaySession {
+    state: string;
+    redirectUri: string;
+    expiresAt: string;
+}
+export interface CreateRelaySessionOptions {
+    relayBaseUrl?: string;
+    returnScheme?: string;
+    callbackHost?: string;
+    fetch?: Fetch;
+}
+export declare function createOAuthRelaySession(options?: CreateRelaySessionOptions): Promise<OAuthRelaySession>;
+export interface OAuthAuthorizationRequestOptions {
+    authorizeUrl: string;
+    clientId: string;
+    scopes?: string[];
+    extraParameters?: OAuthExtraParameters;
+    relayBaseUrl?: string;
+    returnScheme?: string;
+    callbackHost?: string;
+    fetch?: Fetch;
+}
+export interface OAuthAuthorizationRequest {
+    url: string;
+    codeVerifier: string;
+    redirectUri: string;
+    state: string;
+    returnScheme: string;
+    callbackHost: string;
+}
+export interface OAuthAuthorizationResult {
+    code: string;
+    state: string;
+    url: string;
+    params: Record<string, string>;
+}
+export interface OAuthAuthorizeOptions {
+    timeoutMs?: number;
+}
+type OAuthOpenExternal = (url: string) => Promise<void | boolean>;
+export declare class PKCEClient {
+    private readonly openExternal;
+    constructor(options?: {
+        openExternal?: OAuthOpenExternal;
+    });
+    authorizationRequest(options: OAuthAuthorizationRequestOptions): Promise<OAuthAuthorizationRequest>;
+    authorize(request: OAuthAuthorizationRequest | {
+        url: string;
+    }, options?: OAuthAuthorizeOptions): Promise<OAuthAuthorizationResult>;
+}
+export interface OAuthServiceOptions {
+    providerId: string;
+    clientId: string;
+    clientSecret?: string;
+    authorizeUrl: string;
+    tokenUrl: string;
+    refreshTokenUrl?: string;
+    scopes?: string[];
+    relayBaseUrl?: string;
+    redirectScheme?: string;
+    callbackHost?: string;
+    authorizationTimeoutMs?: number;
+    extraAuthorizationParameters?: OAuthExtraParameters;
+    extraTokenParameters?: OAuthExtraParameters;
+    tokenHeaders?: Record<string, string>;
+    fetch?: Fetch;
+    openExternal?: OAuthOpenExternal;
+}
+export interface OAuthProviderWithDefaultClientOptions extends Omit<OAuthServiceOptions, "providerId" | "clientId" | "clientSecret" | "authorizeUrl" | "tokenUrl" | "refreshTokenUrl" | "scopes" | "extraTokenParameters"> {
+    providerId?: string;
+    scope: OAuthProviderScope;
+}
+export declare class OAuthService {
+    private readonly options;
+    private readonly fetch;
+    private readonly client;
+    private readonly store;
+    constructor(options: OAuthServiceOptions);
+    authorize(): Promise<OAuthTokens>;
+    getAccessToken(): Promise<string>;
+    private resolveAccessToken;
+    getTokens(): Promise<OAuthTokens | null>;
+    setTokens(tokens: OAuthTokensInput): Promise<void>;
+    removeTokens(): Promise<void>;
+    static withAccessToken<T>(service: OAuthService, handler: (accessToken: string) => T | Promise<T>): Promise<T>;
+    static github(options: OAuthProviderWithDefaultClientOptions): OAuthService;
+    static linear(options: OAuthProviderWithDefaultClientOptions): OAuthService;
+    static slack(options: OAuthProviderWithDefaultClientOptions): OAuthService;
+    private exchangeAuthorizationCode;
+    private refreshAccessToken;
+    private requestTokens;
+}
+export declare enum RedirectMethod {
+    Web = "web"
+}
+export declare const OAuth: {
+    PKCEClient: typeof PKCEClient;
+    RedirectMethod: typeof RedirectMethod;
+};
+export {};

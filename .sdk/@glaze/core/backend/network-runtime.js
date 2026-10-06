@@ -1,0 +1,1 @@
+import{logger as o}from"@glaze/core/backend";import{configureRuntimeNetwork as t,formatError as e}from"@glaze/core/backend/internal/network";await t().catch(r=>{o.warn("proxy","Failed to configure runtime HTTP agents",{error:e(r)})});

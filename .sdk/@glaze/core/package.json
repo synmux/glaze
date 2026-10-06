@@ -1,0 +1,146 @@
+{
+  "name": "@glaze/core",
+  "description": "Shared Glaze core utilities (IPC, types) for Glaze desktop apps.",
+  "bin": {
+    "glaze": "./cli/glaze.js"
+  },
+  "files": [
+    "ai",
+    "ai.js",
+    "backend",
+    "backend.js",
+    "build",
+    "build.js",
+    "cli",
+    "components",
+    "components.css",
+    "components.js",
+    "components.tailwind.css",
+    "fonts",
+    "GLAZE-SDK-API-REFERENCE",
+    "GLAZE-SDK-API-REFERENCE.md",
+    "global.d.ts",
+    "hooks",
+    "hooks.js",
+    "ipc",
+    "ipc.js",
+    "oauth",
+    "oauth.js",
+    "preload",
+    "preload.js",
+    "shared-externals.mjs",
+    "utils",
+    "utils.js",
+    "vendor"
+  ],
+  "type": "module",
+  "exports": {
+    "./ai": {
+      "types": "./ai/index.d.ts",
+      "import": "./ai.js"
+    },
+    "./ipc": {
+      "types": "./ipc/index.d.ts",
+      "import": "./ipc.js"
+    },
+    "./preload": {
+      "types": "./preload/index.d.ts",
+      "import": "./preload.js"
+    },
+    "./backend": {
+      "types": "./backend/index.d.ts",
+      "import": "./backend.js"
+    },
+    "./backend/runtime": {
+      "import": "./backend/runtime.js"
+    },
+    "./backend/internal": {
+      "types": "./backend/internal.d.ts",
+      "import": "./backend/internal.js"
+    },
+    "./backend/internal/network": {
+      "types": "./backend/network.d.ts",
+      "import": "./backend/network.js"
+    },
+    "./backend/internal/network-runtime": {
+      "import": "./backend/network-runtime.js"
+    },
+    "./oauth": {
+      "types": "./oauth/index.d.ts",
+      "import": "./oauth.js"
+    },
+    "./components": {
+      "types": "./components/index.d.ts",
+      "import": "./components.js"
+    },
+    "./components.css": "./components.css",
+    "./components.tailwind.css": "./components.tailwind.css",
+    "./hooks": {
+      "types": "./hooks/index.d.ts",
+      "import": "./hooks.js"
+    },
+    "./utils": {
+      "types": "./utils/index.d.ts",
+      "import": "./utils.js"
+    },
+    "./build": {
+      "types": "./build/index.d.ts",
+      "import": "./build.js"
+    },
+    "./global": {
+      "types": "./global.d.ts"
+    }
+  },
+  "dependencies": {
+    "@eslint/js": "catalog:",
+    "@raycast/proxy-agent": "workspace:*",
+    "@tailwindcss/vite": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "babel-plugin-react-compiler": "catalog:",
+    "eslint": "catalog:",
+    "eslint-plugin-import": "catalog:",
+    "eslint-plugin-react-refresh": "catalog:",
+    "globals": "catalog:",
+    "marked": "catalog:",
+    "oxfmt": "catalog:",
+    "react-markdown": "catalog:",
+    "rehype-highlight": "catalog:",
+    "rehype-katex": "catalog:",
+    "remark-gfm": "catalog:",
+    "remark-math": "catalog:",
+    "sonner": "catalog:",
+    "vite": "catalog:"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "cmdk": "^1.0.0",
+    "lucide-react": "^0.542.0",
+    "radix-ui": "^1.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "sf-symbols-typescript": "^2.0.0",
+    "tailwind-merge": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "cmdk": {
+      "optional": true
+    },
+    "radix-ui": {
+      "optional": true
+    },
+    "sf-symbols-typescript": {
+      "optional": true
+    }
+  },
+  "optionalDependencies": {
+    "macos-export-certificate-and-key": "1.2.4"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "version": "0.14.3.0"
+}

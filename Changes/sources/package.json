@@ -1,0 +1,73 @@
+{
+  "id": "24et23a7",
+  "name": "changes",
+  "version": "1.0.0",
+  "productName": "Changes",
+  "description": "Get notified when websites change",
+  "iconDescription": "A web monitoring tool that tracks URL content changes at configurable intervals and alerts users with unmissable popup notifications. Users provide URLs, customize check frequency, toggle sound alerts, and optionally normalize JSON data before comparing changes. Think of a magnifying glass watching a webpage, an eye icon with a notification badge, or a webpage with a refresh/update indicator.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "sh ./glaze-node.sh build",
+    "dev": "sh ./glaze-node.sh dev",
+    "dev:renderer": "sh ./glaze-node.sh dev:renderer",
+    "lint": "sh ./glaze-node.sh lint",
+    "type-check": "sh ./glaze-node.sh type-check",
+    "format": "sh ./glaze-node.sh format",
+    "verify": "sh ./glaze-node.sh verify --json",
+    "launch": "sh ./glaze-node.sh launch --wait --json",
+    "update-bundle": "sh ./glaze-node.sh update-bundle --wait --json",
+    "repackage": "sh ./glaze-node.sh repackage --wait --json"
+  },
+  "dependencies": {
+    "@radix-ui/colors": "^3.0.0",
+    "@tanstack/react-query": "^5.87.4",
+    "@tanstack/react-router": "^1.131.36",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "jsonpath-plus": "^10.4.0",
+    "lucide-react": "^0.542.0",
+    "radix-ui": "^1.4.3",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@rolldown/plugin-babel": "^0.2.1",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "esbuild": "^0.27.4",
+    "eslint": "^9.39.2",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^17.3.0",
+    "oxfmt": "^0.26.0",
+    "tailwindcss": "^4.2.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.5.3",
+    "vite": "^8.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "npm@11.11.0+sha512-82gRxKrh/eY5UnNorkTFcdBQAGpgjWehkfGVqAGlJjejEtJZGGJUqjo3mbBTNbc5BTnPKGVtGPBZGhElujX5cw==",
+  "glaze": {
+    "capabilities": {},
+    "sdkVersion": "0.14.3.0",
+    "createdAt": "2026-08-08T18:00:37.292Z",
+    "lastMigration": "tray-retina-icons",
+    "host": {
+      "minVersion": "0.14.3.0"
+    },
+    "updatedAt": 1786221251781,
+    "appId": "watch-url-local-24et23a7",
+    "variant": "local"
+  }
+}
