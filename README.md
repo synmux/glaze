@@ -1,0 +1,84 @@
+# Glaze apps
+
+A Glaze projects root holding the local macOS apps built with the Glaze SDK, plus a vendored copy of the SDK itself so the projects build without reaching outside the repository.
+
+Two apps live here:
+
+- **Caffeinate** — a menu bar utility that keeps the Mac awake indefinitely, until a given time, or for a set duration.
+- **Changes** — watches URLs on a schedule and raises an unmissable alert window (with optional sound) when the content changes.
+
+## Repository layout
+
+```plaintext
+.
+├── .glaze-projects-root      # Marks this directory as a Glaze projects root (flavour: production)
+├── .sdk/
+│   ├── .version              # Pinned SDK version (0.14.3.0-0)
+│   └── @glaze/core/          # Vendored Glaze SDK: CLI, components, backend/preload/IPC typings, API reference
+├── Caffeinate/
+└── Changes/
+```
+
+Each app directory follows the same shape:
+
+```plaintext
+Caffeinate/
+├── Caffeinate.app -> /Applications/Glaze/Caffeinate.app   # Symlink to the installed bundle
+├── runtime/                   # Build output the installed bundle actually loads
+│   ├── app-icon.icns
+│   ├── build/                 # Compiled main process, renderer bundles, window HTML
+│   └── package.json           # Runtime manifest (appId, SDK version, capabilities)
+└── sources/                   # The project you edit
+    ├── main/                  # Backend: entry point, IPC handlers, services, window definitions
+    ├── renderer/              # React frontend: one directory per window, plus preload.ts
+    ├── *.html                 # Window entry documents (main-window, settings-window, …)
+    ├── glaze.ts               # Thin wrapper resolving the glaze CLI from ../../.sdk
+    ├── glaze-node.sh          # Bootstrap that locates Glaze's managed Node runtime
+    └── package.json           # Dependencies, scripts, and the `glaze` manifest block
+```
+
+`runtime/` is generated — treat `sources/` as the only hand-edited tree. Build output is committed so the installed bundle stays in sync with the sources, but you should never edit it directly.
+
+## Prerequisites
+
+- macOS (Apple silicon or Intel).
+- The Glaze host app installed, which supplies the managed Node runtime under `~/Library/Application Support/app.glaze.macos.main/node/runtime`. The apps declare `host.minVersion` of `0.14.3.0`.
+- Failing that, Node 24 or newer on `PATH`. `glaze-node.sh` prefers Glaze's managed runtime and falls back to the system `node`.
+
+There is no need to install Node, npm, or the Glaze CLI manually; every script routes through `glaze-node.sh`, which fixes up `PATH` before handing off to `glaze.ts`.
+
+## Setup
+
+Dependencies are per-app, so work from an app's `sources/` directory:
+
+```fish
+cd Caffeinate/sources
+sh ./glaze-node.sh --npm install
+```
+
+`--npm` runs npm from the managed runtime, which keeps the Node version consistent with the one used for builds. `node_modules/` is ignored by git.
+
+## Everyday commands
+
+Run these from an app's `sources/` directory, either as `npm run <script>` or directly as `sh ./glaze-node.sh <command>`:
+
+- `dev` — start the backend and renderer dev servers together.
+- `dev:renderer` — renderer dev server only.
+- `build` — build backend and renderer, then sync the runtime manifest.
+- `lint` — ESLint with the SDK's shared config.
+- `type-check` — TypeScript with `--noEmit`.
+- `format` — format `main/` and `renderer/`.
+- `verify` — install if needed, then lint, type-check, and build. This is the gate to run before committing.
+- `launch` — ask Glaze to launch the managed app.
+- `update-bundle` — refresh managed bundle metadata.
+- `repackage` — recreate the managed app bundle.
+
+## Generated and ignored files
+
+Several files inside `sources/` are managed by Glaze rather than by you:
+
+- `GLAZE-AGENT-INSTRUCTIONS.md` and `GLAZE-APP-GUIDE.md` are symlinks into Glaze's agent resources.
+- `.claude/skills/*` symlink to the SDK's skill library; `.agents/skills` points at `.claude/skills`.
+- `.glaze_memory/`, `.glaze-runtime-context.md`, generated icons, and `node_modules/` are git-ignored.
+
+`AGENTS.md` is the canonical file for agent instructions in each project, and it defers to `GLAZE-AGENT-INSTRUCTIONS.md`. Add project-specific guidance to `AGENTS.md` itself.
