@@ -47,7 +47,7 @@
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.31.0",
     "globals": "^17.3.0",
-    "oxfmt": "^0.26.0",
+    "oxfmt": "^0.72.0",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.20.5",
     "typescript": "^5.5.3",
