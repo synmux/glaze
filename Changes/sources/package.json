@@ -69,5 +69,8 @@
     "updatedAt": 1786221251781,
     "appId": "watch-url-local-24et23a7",
     "variant": "local"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

@@ -70,5 +70,8 @@
       "minVersion": "0.14.3.0"
     },
     "updatedAt": 1791330099965
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

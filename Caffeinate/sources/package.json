@@ -68,5 +68,8 @@
     "updatedAt": 1786212303854,
     "appId": "caffeinate-local-24sfqlwq",
     "variant": "local"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }
