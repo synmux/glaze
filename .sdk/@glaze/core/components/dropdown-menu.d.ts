@@ -1,6 +1,6 @@
 import * as React from "react";
 import { type NativeMenuIcon, type DropdownMenuSide, type DropdownMenuAlign } from "../hooks/use-native-dropdown-menu";
-import { type MenuItemColor } from "../backend/menu.js";
+import type { MenuItemColor } from "../backend/menu.js";
 interface DropdownMenuItemProps {
     icon?: NativeMenuIcon;
     sublabel?: string;

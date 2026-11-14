@@ -1,4 +1,4 @@
-import { type IpcTransport } from "./types";
+import type { IpcTransport } from "./types";
 export declare class NativeBridgeTransport implements IpcTransport {
     private messageProcessor;
     private connected;

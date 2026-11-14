@@ -4,7 +4,7 @@
  * Provides an API surface for renderer process IPC
  * while using the existing transport infrastructure under the hood.
  */
-import { type IpcTransport } from "./types.js";
+import type { IpcTransport } from "./types.js";
 import { ElectronEventEmitter, type ElectronEventName, type ElectronEventListener } from "./electron-event-emitter.js";
 type IpcRendererStreamOptions = {
     /** Used by callers in the same JavaScript world. */

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "../utils/cn";
-import { type AIStatus } from "./ai-status";
+import type { AIStatus } from "./ai-status";
 import { CollapsibleChevron, CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from "./collapsible";
 
 interface ToolRootProps extends React.ComponentProps<typeof CollapsibleRoot> {

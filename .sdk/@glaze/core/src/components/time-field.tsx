@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 
 import { cn } from "../utils/cn";
 import { prefersHour12 } from "../utils/locale";

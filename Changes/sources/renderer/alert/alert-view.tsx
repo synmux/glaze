@@ -50,13 +50,7 @@ function DiffView({ diff }: { diff: DiffLine[] }) {
                   : "whitespace-pre-wrap break-all text-tertiary"
           }
         >
-          {line.type === "add"
-            ? "+ "
-            : line.type === "remove"
-              ? "- "
-              : line.type === "skip"
-                ? ""
-                : "  "}
+          {line.type === "add" ? "+ " : line.type === "remove" ? "- " : line.type === "skip" ? "" : "  "}
           {line.text}
         </div>
       ))}
@@ -78,22 +72,16 @@ function useSoundLoop(option: SoundOption, active: boolean) {
 }
 
 export function AlertView() {
-  const [payload, setPayload] = useState<AlertPayload>({
-    changes: [],
-    sound: "none",
-  });
+  const [payload, setPayload] = useState<AlertPayload>({ changes: [], sound: "none" });
 
   useEffect(() => {
     void window.glazeAPI.glaze.ipc
       .invoke("alert:get")
       .then((data) => setPayload(data as AlertPayload));
 
-    const off = window.glazeAPI.glaze.ipc.onNotification(
-      "alert:changed",
-      (params) => {
-        setPayload(params as AlertPayload);
-      },
-    );
+    const off = window.glazeAPI.glaze.ipc.onNotification("alert:changed", (params) => {
+      setPayload(params as AlertPayload);
+    });
     return () => off?.();
   }, []);
 
@@ -158,10 +146,7 @@ export function AlertView() {
               </div>
               {change.diff ? (
                 <CollapsibleRoot className="mt-1">
-                  <CollapsibleTrigger
-                    variant="section"
-                    className="no-drag gap-1"
-                  >
+                  <CollapsibleTrigger variant="section" className="no-drag gap-1">
                     <CollapsibleChevron />
                     View diff
                   </CollapsibleTrigger>

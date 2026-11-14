@@ -51,10 +51,10 @@
  * it at boot — this is the documented "rare heavy-dependency" exception to the
  * static-import rule.
  */
-import { type LanguageModelUsage, type ModelMessage } from "ai";
+import type { LanguageModelUsage, ModelMessage } from "ai";
 import { type GlazeAIErrorState } from "../ai/errors.js";
 import { type AppAiPermissionState } from "./app-ai-token-runtime.js";
-import { type IPCStreamRequestContext } from "./types.js";
+import type { IPCStreamRequestContext } from "./types.js";
 export declare const GLAZE_AI_GENERATE_TEXT_CHANNEL = "glaze:ai:generateText";
 export declare const GLAZE_AI_STREAM_TEXT_CHANNEL = "glaze:ai:streamText";
 export declare const GLAZE_AI_PERMISSION_STATE_CHANNEL = "glaze:ai:getPermissionState";

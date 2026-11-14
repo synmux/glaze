@@ -41,8 +41,7 @@ function broadcast(): void {
 
 /** Deterministic JSON stringify with recursively sorted object keys. */
 function stableStringify(value: unknown): string {
-  if (value === null || typeof value !== "object")
-    return JSON.stringify(value) ?? "null";
+  if (value === null || typeof value !== "object") return JSON.stringify(value) ?? "null";
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
   const obj = value as Record<string, unknown>;
   const keys = Object.keys(obj).sort();
@@ -51,12 +50,7 @@ function stableStringify(value: unknown): string {
 
 /** Delete every node matched by a JSONPath expression, deepest matches first. */
 function stripJsonPath(root: unknown, path: string): void {
-  const pointers = JSONPath({
-    path,
-    json: root as object,
-    resultType: "pointer",
-    eval: false,
-  }) as string[];
+  const pointers = JSONPath({ path, json: root as object, resultType: "pointer", eval: false }) as string[];
   const sorted = [...pointers].sort((a, b) => b.length - a.length);
 
   for (const pointer of sorted) {
@@ -80,19 +74,14 @@ function stripJsonPath(root: unknown, path: string): void {
 
     if (Array.isArray(parent)) {
       const index = Number(lastKey);
-      if (Number.isInteger(index) && index >= 0 && index < parent.length)
-        parent.splice(index, 1);
+      if (Number.isInteger(index) && index >= 0 && index < parent.length) parent.splice(index, 1);
     } else {
       delete (parent as Record<string, unknown>)[lastKey];
     }
   }
 }
 
-function normalizeContent(
-  text: string,
-  jsonNormalize: boolean,
-  ignorePaths: string[],
-): string {
+function normalizeContent(text: string, jsonNormalize: boolean, ignorePaths: string[]): string {
   if (!jsonNormalize) return text;
   try {
     const parsed: unknown = JSON.parse(text);
@@ -119,9 +108,7 @@ export function validateIgnorePaths(paths: string[]): void {
     try {
       JSONPath({ path, json: {}, resultType: "pointer", eval: false });
     } catch (err) {
-      throw new Error(
-        `Invalid JSONPath expression "${path}": ${err instanceof Error ? err.message : String(err)}`,
-      );
+      throw new Error(`Invalid JSONPath expression "${path}": ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 }
@@ -165,11 +152,7 @@ async function checkWatch(watch: Watch): Promise<void> {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`.trim());
     const text = await res.text();
-    const normalized = normalizeContent(
-      text,
-      watch.jsonNormalize,
-      watch.jsonNormalize ? watch.ignorePaths : [],
-    );
+    const normalized = normalizeContent(text, watch.jsonNormalize, watch.jsonNormalize ? watch.ignorePaths : []);
     const hash = crypto.createHash("sha256").update(normalized).digest("hex");
 
     watch.lastCheckedAt = Date.now();
@@ -186,10 +169,7 @@ async function checkWatch(watch: Watch): Promise<void> {
       // Comparing the same normalized form used for hashing, so with JSON normalization on,
       // the diff is between both normalized versions rather than the raw fetched bodies.
       const previous = lastCompared.get(watch.id);
-      const diff =
-        watch.showDiff && previous !== undefined
-          ? computeLineDiff(previous, normalized)
-          : undefined;
+      const diff = watch.showDiff && previous !== undefined ? computeLineDiff(previous, normalized) : undefined;
       await showChangeAlert(
         {
           id: watch.id,
@@ -211,10 +191,7 @@ async function checkWatch(watch: Watch): Promise<void> {
     watch.lastCheckedAt = Date.now();
     watch.lastStatus = "error";
     watch.lastError = err instanceof Error ? err.message : String(err);
-    logger.warn("watch-service", "Check failed", {
-      url: watch.url,
-      error: watch.lastError,
-    });
+    logger.warn("watch-service", "Check failed", { url: watch.url, error: watch.lastError });
   } finally {
     clearTimeout(timeout);
     await saveWatches(watches);
@@ -266,10 +243,7 @@ export async function addWatch(input: WatchInput): Promise<Watch> {
   return watch;
 }
 
-export async function updateWatch(
-  id: string,
-  patch: WatchInput,
-): Promise<Watch> {
+export async function updateWatch(id: string, patch: WatchInput): Promise<Watch> {
   const watch = watches.find((w) => w.id === id);
   if (!watch) throw new Error(`Watch not found: ${id}`);
 
@@ -303,10 +277,7 @@ export async function updateWatch(
   return watch;
 }
 
-export async function setWatchEnabled(
-  id: string,
-  enabled: boolean,
-): Promise<Watch> {
+export async function setWatchEnabled(id: string, enabled: boolean): Promise<Watch> {
   const watch = watches.find((w) => w.id === id);
   if (!watch) throw new Error(`Watch not found: ${id}`);
   watch.enabled = enabled;

@@ -1,0 +1,1 @@
+../.claude/GLAZE-APP-GUIDE.md

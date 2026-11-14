@@ -1,0 +1,1 @@
+../.claude/EXTERNAL-AGENT-INSTRUCTIONS.md

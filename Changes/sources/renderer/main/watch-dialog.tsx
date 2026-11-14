@@ -19,19 +19,8 @@ import {
 } from "@glaze/core/components";
 import { Play } from "lucide-react";
 
-import {
-  previewSound,
-  SOUND_META,
-  SOUND_OPTIONS,
-  type SoundOption,
-} from "../lib/alert-sounds";
-import {
-  fromSeconds,
-  toSeconds,
-  type IntervalUnit,
-  type Watch,
-  type WatchInput,
-} from "./watch-types";
+import { previewSound, SOUND_META, SOUND_OPTIONS, type SoundOption } from "../lib/alert-sounds";
+import { fromSeconds, toSeconds, type IntervalUnit, type Watch, type WatchInput } from "./watch-types";
 
 interface WatchDialogProps {
   open: boolean;
@@ -102,9 +91,7 @@ export function WatchDialog({ open, onOpenChange, editing }: WatchDialogProps) {
       onOpenChange(false);
     },
     onError: (error) => {
-      toast.error(
-        `Could not save watch: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      toast.error(`Could not save watch: ${error instanceof Error ? error.message : String(error)}`);
     },
   });
 
@@ -150,30 +137,13 @@ export function WatchDialog({ open, onOpenChange, editing }: WatchDialogProps) {
               autoFocus
             />
           </Field>
-          <Field
-            label="Name"
-            description="Optional label shown in the list."
-            orientation="vertical"
-          >
-            <Input
-              placeholder="e.g. Pricing page"
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
-            />
+          <Field label="Name" description="Optional label shown in the list." orientation="vertical">
+            <Input placeholder="e.g. Pricing page" value={label} onChange={(e) => setLabel(e.target.value)} />
           </Field>
           <Field label="Check every">
             <div className="flex items-center gap-2">
-              <NumberInput
-                value={intervalValue}
-                onValueChange={setIntervalValue}
-                min={1}
-                max={9999}
-                className="w-24"
-              />
-              <Select
-                value={intervalUnit}
-                onValueChange={(v) => setIntervalUnit(v as IntervalUnit)}
-              >
+              <NumberInput value={intervalValue} onValueChange={setIntervalValue} min={1} max={9999} className="w-24" />
+              <Select value={intervalUnit} onValueChange={(v) => setIntervalUnit(v as IntervalUnit)}>
                 <SelectTrigger className="w-32">
                   <SelectValue />
                 </SelectTrigger>
@@ -187,10 +157,7 @@ export function WatchDialog({ open, onOpenChange, editing }: WatchDialogProps) {
           </Field>
           <Field label="Sound" description={SOUND_META[sound].description}>
             <div className="flex items-center gap-2">
-              <Select
-                value={sound}
-                onValueChange={(v) => setSound(v as SoundOption)}
-              >
+              <Select value={sound} onValueChange={(v) => setSound(v as SoundOption)}>
                 <SelectTrigger className="w-40">
                   <SelectValue />
                 </SelectTrigger>
@@ -225,14 +192,8 @@ export function WatchDialog({ open, onOpenChange, editing }: WatchDialogProps) {
           >
             <Switch checked={cacheBust} onCheckedChange={setCacheBust} />
           </Field>
-          <Field
-            label="Normalize JSON"
-            description="Ignore key order and formatting; compare JSON by value."
-          >
-            <Switch
-              checked={jsonNormalize}
-              onCheckedChange={setJsonNormalize}
-            />
+          <Field label="Normalize JSON" description="Ignore key order and formatting; compare JSON by value.">
+            <Switch checked={jsonNormalize} onCheckedChange={setJsonNormalize} />
           </Field>
           <Field
             label="Show diff"

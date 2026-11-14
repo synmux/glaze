@@ -3,8 +3,8 @@
  *
  * types for dialog and theme APIs.
  */
-import { type NativeImage } from "../backend/native-image.js";
-import { type NativeImage as RendererNativeImage } from "../preload/native-image.js";
+import type { NativeImage } from "../backend/native-image.js";
+import type { NativeImage as RendererNativeImage } from "../preload/native-image.js";
 export interface FileFilter {
     name: string;
     extensions: string[];

@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { type SaveDialogOptions } from "./dialog.js";
+import type { SaveDialogOptions } from "./dialog.js";
 export type DownloadItemUpdateState = "progressing" | "interrupted";
 export type DownloadItemDoneState = "completed" | "cancelled" | "interrupted";
 export type DownloadItemState = DownloadItemUpdateState | DownloadItemDoneState;

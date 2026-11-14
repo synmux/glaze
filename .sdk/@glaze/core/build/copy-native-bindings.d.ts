@@ -1,4 +1,4 @@
-import { type Plugin } from "esbuild";
+import type { Plugin } from "esbuild";
 /**
  * Creates an esbuild plugin that copies native .node bindings to the build output.
  *

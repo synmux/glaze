@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { showNativeViewMenu, type NativeMenuItem, type NativeMenuIcon } from "../utils/native-menu-helpers";
-import { type MenuItemColor } from "../backend/menu.js";
+import type { MenuItemColor } from "../backend/menu.js";
 
 const CONTEXT_MENU_CURSOR_OFFSET = 4;
 

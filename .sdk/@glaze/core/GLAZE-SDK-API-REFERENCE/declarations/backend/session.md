@@ -92,11 +92,11 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
 import { EventEmitter } from "events";
 import { DownloadItem } from "./download-item.js";
 import { Extensions, type Extension } from "./extensions.js";
-import { type GlazeIPCServer } from "./ipc.js";
+import type { GlazeIPCServer } from "./ipc.js";
 import { NetLog } from "./net-log.js";
 import { type Protocol } from "./protocol.js";
 import { ServiceWorkers } from "./service-workers.js";
-import { type WebContents } from "./web-contents.js";
+import type { WebContents } from "./web-contents.js";
 import { WebFrameMain } from "./web-frame-main.js";
 import { WebRequest } from "./web-request.js";
 export type CookieSameSite = "unspecified" | "no_restriction" | "lax" | "strict";

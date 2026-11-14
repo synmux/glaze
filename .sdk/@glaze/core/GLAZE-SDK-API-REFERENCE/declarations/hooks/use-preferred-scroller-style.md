@@ -8,6 +8,6 @@ Included by entrypoints: `@glaze/core/hooks`
 | `@glaze/core/hooks#usePreferredScrollerStyle` | export | No |
 ## Declaration
 ```ts
-import { type SystemPreferencesPreferredScrollerStyle } from "../ipc/native-api";
+import type { SystemPreferencesPreferredScrollerStyle } from "../ipc/native-api";
 export declare function usePreferredScrollerStyle(): SystemPreferencesPreferredScrollerStyle | null;
 ```

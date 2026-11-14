@@ -1,4 +1,4 @@
-import { type LanguageModelUsage, type ModelMessage } from "ai";
+import type { LanguageModelUsage, ModelMessage } from "ai";
 import { GlazeAIError, type GlazeAIErrorState } from "../ai/errors";
 /** Matches `GlazeAiGenerateTextOptions` in `@glaze/core/backend`'s app-ai-bridge.
  *  Prompt exclusivity mirrors the AI SDK's own `Prompt` type: exactly one of

@@ -8,7 +8,7 @@ Included by entrypoints: `@glaze/core/build`
 | `@glaze/core/build#copyNativeBindings` | export | No |
 ## Declaration
 ```ts
-import { type Plugin } from "esbuild";
+import type { Plugin } from "esbuild";
 /**
  * Creates an esbuild plugin that copies native .node bindings to the build output.
  *

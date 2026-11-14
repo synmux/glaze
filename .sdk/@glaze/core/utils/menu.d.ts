@@ -1,7 +1,7 @@
 /**
  * Menu API - calls window.glazeAPI.Menu
  */
-import { type MenuItemColor } from "../backend/menu.js";
+import type { MenuItemColor } from "../backend/menu.js";
 /**
  * Geometry types
  */

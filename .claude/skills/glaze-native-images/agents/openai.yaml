@@ -1,0 +1,4 @@
+interface:
+  display_name: "Glaze Native Images"
+  short_description: "Render native icons and thumbnails correctly"
+  default_prompt: "Use $glaze-native-images to build or review a native app and file image experience with correct sizing and fallbacks."

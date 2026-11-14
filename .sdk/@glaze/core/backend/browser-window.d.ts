@@ -7,7 +7,7 @@
 import { EventEmitter } from "events";
 import { type LoadFileOptions } from "./load-file-options.js";
 import { type LoadURLOptions } from "./load-url-options.js";
-import { type NativeImage } from "./native-image.js";
+import type { NativeImage } from "./native-image.js";
 import { type Rectangle } from "./screen.js";
 import { Session } from "./session.js";
 import { WebContents, type WebContentsCapturePageOptions, type WebContentsImageAnimationPolicy, type WebContentsOpenDevToolsOptions, type WebContentsWindowOpenDetails } from "./web-contents.js";

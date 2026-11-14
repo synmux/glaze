@@ -58,9 +58,7 @@ export async function getWindowUrl(htmlFileName: string): Promise<string> {
 
   if (fs.existsSync(devServerHostFile)) {
     try {
-      const devServerHost = (
-        await fs.promises.readFile(devServerHostFile, "utf-8")
-      ).trim();
+      const devServerHost = (await fs.promises.readFile(devServerHostFile, "utf-8")).trim();
       if (devServerHost) {
         return `${devServerHost}/${htmlFileName}`;
       }

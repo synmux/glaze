@@ -1,5 +1,5 @@
 import * as React from "react";
-import { type AIStatus } from "./ai-status";
+import type { AIStatus } from "./ai-status";
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from "./collapsible";
 type ReasoningStatus = AIStatus | "streaming";
 interface ReasoningRootProps extends React.ComponentProps<typeof CollapsibleRoot> {

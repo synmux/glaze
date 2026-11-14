@@ -13,7 +13,7 @@ Confirmed decisions:
 
 Backend-owned. The renderer is only the Preferences UI.
 
-```plaintext
+```
 Tray menu ─┐
 Shortcut ──┼─► applyPresetBySlug(slug, source) ─► audio helper (Swift, CoreAudio)
 Auto-apply ┤        │ serialized queue

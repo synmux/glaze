@@ -14,7 +14,7 @@ Included by entrypoints: `@glaze/core/backend`
  * Exposes theme state and update events from the native host.
  */
 import { EventEmitter } from "events";
-import { type NativeThemeInfo, type SystemPreferencesEffectiveAppearance } from "../ipc/native-api.js";
+import type { NativeThemeInfo, SystemPreferencesEffectiveAppearance } from "../ipc/native-api.js";
 export type NativeThemeSource = "system" | "light" | "dark";
 declare class NativeTheme extends EventEmitter {
     private _shouldUseDarkColors;

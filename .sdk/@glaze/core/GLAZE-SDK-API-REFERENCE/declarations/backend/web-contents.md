@@ -91,13 +91,13 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
 ## Declaration
 ```ts
 import { EventEmitter } from "events";
-import { type BrowserWindowConstructorOptions } from "./browser-window.js";
+import type { BrowserWindowConstructorOptions } from "./browser-window.js";
 import { type IpcMainEvent, type ScopedIpcMain } from "./ipc-main.js";
 import { type LoadFileOptions } from "./load-file-options.js";
 import { type LoadURLOptions, type Referrer } from "./load-url-options.js";
 import { MessagePortMain } from "./message-channel-main.js";
 import { type NativeImage } from "./native-image.js";
-import { type Point, type Rectangle, type Size } from "./screen.js";
+import type { Point, Rectangle, Size } from "./screen.js";
 import { Session, type Certificate, type DownloadURLOptions } from "./session.js";
 import { WebFrameMain } from "./web-frame-main.js";
 export interface WebContentsEvents {

@@ -1,4 +1,4 @@
-import { type Plugin as EsbuildPlugin } from "esbuild";
+import type { Plugin as EsbuildPlugin } from "esbuild";
 export interface BuildBackendOptions {
     /** Extra packages to mark as external in the esbuild bundle */
     external?: string[];

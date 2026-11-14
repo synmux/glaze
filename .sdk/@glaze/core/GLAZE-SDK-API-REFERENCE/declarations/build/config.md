@@ -9,7 +9,7 @@ Included by entrypoints: `@glaze/core/build`
 | `@glaze/core/build#loadConfig` | export | No |
 ## Declaration
 ```ts
-import { type GlazeConfig } from "./types.js";
+import type { GlazeConfig } from "./types.js";
 /** Type-safe config helper (passthrough for types, identity at runtime) */
 export declare function defineConfig(config: GlazeConfig): GlazeConfig;
 /**

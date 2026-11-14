@@ -9,7 +9,7 @@
  * - These are intercepted by Swift and routed to NativeMethodRegistry
  * - Responses come back through the same mechanism
  */
-import { type GlazeIPCServer } from "./ipc.js";
+import type { GlazeIPCServer } from "./ipc.js";
 interface NativeBridgeResponse {
     id: string;
     result?: any;

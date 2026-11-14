@@ -1,4 +1,4 @@
-import { type NativeImage, type Size } from "./native-image.js";
+import type { NativeImage, Size } from "./native-image.js";
 export interface SerializedNativeImage {
     isEmpty: boolean;
     dataURL: string;

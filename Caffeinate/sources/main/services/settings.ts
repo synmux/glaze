@@ -23,27 +23,14 @@ const DEFAULTS: AppSettings = {
 };
 
 function isFileNotFound(error: unknown): boolean {
-  return (
-    error instanceof Error &&
-    "code" in error &&
-    (error as { code?: string }).code === "ENOENT"
-  );
+  return error instanceof Error && "code" in error && (error as { code?: string }).code === "ENOENT";
 }
 
 function normalize(parsed: unknown): AppSettings {
-  const source =
-    parsed && typeof parsed === "object" && !Array.isArray(parsed)
-      ? (parsed as Record<string, unknown>)
-      : {};
+  const source = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? (parsed as Record<string, unknown>) : {};
   return {
-    keepDisplayAwake:
-      typeof source.keepDisplayAwake === "boolean"
-        ? source.keepDisplayAwake
-        : DEFAULTS.keepDisplayAwake,
-    hideDockIcon:
-      typeof source.hideDockIcon === "boolean"
-        ? source.hideDockIcon
-        : DEFAULTS.hideDockIcon,
+    keepDisplayAwake: typeof source.keepDisplayAwake === "boolean" ? source.keepDisplayAwake : DEFAULTS.keepDisplayAwake,
+    hideDockIcon: typeof source.hideDockIcon === "boolean" ? source.hideDockIcon : DEFAULTS.hideDockIcon,
   };
 }
 
@@ -78,10 +65,7 @@ class SettingsService {
     return { ...this.cache };
   }
 
-  async set<K extends keyof AppSettings>(
-    key: K,
-    value: AppSettings[K],
-  ): Promise<void> {
+  async set<K extends keyof AppSettings>(key: K, value: AppSettings[K]): Promise<void> {
     this.cache = { ...this.cache, [key]: value };
     const snapshot = { ...this.cache };
     const save = this.saveQueue

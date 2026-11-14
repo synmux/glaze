@@ -1,4 +1,4 @@
-import { type ViteConfigOverrides } from "./types.js";
+import type { ViteConfigOverrides } from "./types.js";
 /**
  * Resolve the path to @glaze/core.
  * Dev: sibling ../glaze-core/ package. Host-spawned builds: GLAZE_SDK_PATH (the version-pinned

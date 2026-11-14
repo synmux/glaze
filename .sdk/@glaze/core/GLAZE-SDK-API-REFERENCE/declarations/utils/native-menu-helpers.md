@@ -24,9 +24,9 @@ Included by entrypoints: `@glaze/core/components`, `@glaze/core/hooks`, `@glaze/
  *
  * Helper utilities for building native menu items from React-style configurations.
  */
-import { type MenuItemConstructorOptions, type PopupOptions, type PopupResult } from "./menu";
-import { type MenuItemColor } from "../backend/menu.js";
-import { type SFSymbol } from "sf-symbols-typescript";
+import type { MenuItemConstructorOptions, PopupOptions, PopupResult } from "./menu";
+import type { MenuItemColor } from "../backend/menu.js";
+import type { SFSymbol } from "sf-symbols-typescript";
 /**
  * Icon type for native menu items.
  * - `SFSymbol`: SF Symbol name with full autocomplete (e.g., "star.fill", "folder", "trash")

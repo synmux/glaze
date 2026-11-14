@@ -10,7 +10,7 @@ Usage guide: `@glaze/core/src/components/task-list.md` (join to the runtime `SDK
 ## Declaration
 ```ts
 import * as React from "react";
-import { type AIStatus } from "./ai-status";
+import type { AIStatus } from "./ai-status";
 declare function Root({ className, ...props }: React.ComponentProps<"div">): import("react/jsx-runtime").JSX.Element;
 interface TaskListItemProps extends React.ComponentProps<"div"> {
     status: AIStatus;

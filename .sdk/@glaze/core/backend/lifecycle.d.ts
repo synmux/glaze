@@ -3,7 +3,7 @@
  *
  * Handles application startup, shutdown, and process monitoring
  */
-import { type ChildProcess } from "child_process";
+import type { ChildProcess } from "child_process";
 export interface LifecycleCallbacks {
     onShutdown?: () => Promise<void> | void;
 }

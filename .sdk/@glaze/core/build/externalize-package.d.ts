@@ -1,4 +1,4 @@
-import { type Plugin } from "esbuild";
+import type { Plugin } from "esbuild";
 export interface ExternalizePackageOptions {
     /**
      * Paths relative to each copied package root to skip during the copy

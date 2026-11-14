@@ -17,7 +17,7 @@ Included by entrypoints: `@glaze/core/backend`
  * Notification - system notification API
  */
 import { EventEmitter } from "events";
-import { type NativeImage } from "./native-image.js";
+import type { NativeImage } from "./native-image.js";
 export type NotificationActionType = "button" | "selection";
 export type NotificationUrgency = "normal" | "critical" | "low";
 export type NotificationTimeoutType = "default" | "never";

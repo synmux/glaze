@@ -17,7 +17,7 @@ Usage guide: `@glaze/core/src/components/avatar.md` (join to the runtime `SDK Pa
 ```ts
 import * as React from "react";
 import { Avatar as AvatarPrimitive } from "radix-ui";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { avatarVariants } from "./avatar-variants";
 export interface AvatarProps extends React.ComponentProps<typeof AvatarPrimitive.Root>, VariantProps<typeof avatarVariants> {
 }

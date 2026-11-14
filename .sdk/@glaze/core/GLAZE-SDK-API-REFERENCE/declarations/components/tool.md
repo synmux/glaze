@@ -10,7 +10,7 @@ Usage guide: `@glaze/core/src/components/tool.md` (join to the runtime `SDK Path
 ## Declaration
 ```ts
 import * as React from "react";
-import { type AIStatus } from "./ai-status";
+import type { AIStatus } from "./ai-status";
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from "./collapsible";
 interface ToolRootProps extends React.ComponentProps<typeof CollapsibleRoot> {
     status: AIStatus;

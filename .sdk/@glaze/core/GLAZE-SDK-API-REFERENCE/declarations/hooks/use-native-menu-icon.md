@@ -19,7 +19,7 @@ Included by entrypoints: `@glaze/core/hooks`
  * - Resolving image paths for both development (web URLs) and production (file:// protocol)
  * - Tracking whether the icon is a template (adapts to light/dark mode)
  */
-import { type NativeMenuIcon } from "../utils/native-menu-helpers";
+import type { NativeMenuIcon } from "../utils/native-menu-helpers";
 export interface NativeMenuIconData {
     /** Data URL or web URL that can be used in an img src or CSS url() */
     dataUrl: string;

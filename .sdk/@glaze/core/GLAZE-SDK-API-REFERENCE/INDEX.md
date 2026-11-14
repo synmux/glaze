@@ -27,7 +27,7 @@ Do not enumerate or crawl `sdk/current`; use this generated reference and exact 
 - Zero hits for both the key and `"name":"<bare name>"` means the API is not part of the public Glaze SDK.
 
 Package: `@glaze/core`
-Declaration hash: `sha256:a0b9ddadbbe038ccbffc69ab77ef0dd26a73467439c35ae0515e25b75a9b1dc1`
+Declaration hash: `sha256:941fec8aac3dc4208ba7cdac8beb4ee13d8ad569e6383ed6925a1e31e300ef1a`
 Public entrypoints: `10`
 Declaration files included: `178`
 Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
@@ -77,11 +77,11 @@ Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
 | `ai/errors.d.ts` | [ai/errors.d.ts](./declarations/ai/errors.md) | 1234 B |
 | `ai/glaze-gemini-image.d.ts` | [ai/glaze-gemini-image.d.ts](./declarations/ai/glaze-gemini-image.md) | 3916 B |
 | `ai/index.d.ts` | [ai/index.d.ts](./declarations/ai/index.md) | 310 B |
-| `ai/provider.d.ts` | [ai/provider.d.ts](./declarations/ai/provider.md) | 1343 B |
-| `backend/app-ai-bridge.d.ts` | [backend/app-ai-bridge.d.ts](./declarations/backend/app-ai-bridge.md) | 7641 B |
+| `ai/provider.d.ts` | [ai/provider.d.ts](./declarations/ai/provider.md) | 1338 B |
+| `backend/app-ai-bridge.d.ts` | [backend/app-ai-bridge.d.ts](./declarations/backend/app-ai-bridge.md) | 7636 B |
 | `backend/app-ai-token-runtime.d.ts` | [backend/app-ai-token-runtime.d.ts](./declarations/backend/app-ai-token-runtime.md) | 5548 B |
 | `backend/app-inspection.d.ts` | [backend/app-inspection.d.ts](./declarations/backend/app-inspection.md) | 70 B |
-| `backend/app.d.ts` | [backend/app.d.ts](./declarations/backend/app.md) | 34370 B |
+| `backend/app.d.ts` | [backend/app.d.ts](./declarations/backend/app.md) | 34360 B |
 | `backend/browser-window.d.ts` | [backend/browser-window.d.ts](./declarations/backend/browser-window.md) | 36066 B |
 | `backend/calendar.d.ts` | [backend/calendar.d.ts](./declarations/backend/calendar.md) | 9506 B |
 | `backend/clipboard.d.ts` | [backend/clipboard.d.ts](./declarations/backend/clipboard.md) | 11263 B |
@@ -89,22 +89,22 @@ Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
 | `backend/content-tracing.d.ts` | [backend/content-tracing.d.ts](./declarations/backend/content-tracing.md) | 1564 B |
 | `backend/cross-app-channel.d.ts` | [backend/cross-app-channel.d.ts](./declarations/backend/cross-app-channel.md) | 3702 B |
 | `backend/desktop-capturer.d.ts` | [backend/desktop-capturer.d.ts](./declarations/backend/desktop-capturer.md) | 740 B |
-| `backend/dialog.d.ts` | [backend/dialog.d.ts](./declarations/backend/dialog.md) | 4307 B |
+| `backend/dialog.d.ts` | [backend/dialog.d.ts](./declarations/backend/dialog.md) | 4272 B |
 | `backend/download-item.d.ts` | [backend/download-item.d.ts](./declarations/backend/download-item.md) | 3991 B |
 | `backend/extensions.d.ts` | [backend/extensions.d.ts](./declarations/backend/extensions.md) | 1617 B |
 | `backend/global-shortcut.d.ts` | [backend/global-shortcut.d.ts](./declarations/backend/global-shortcut.md) | 4559 B |
 | `backend/index.d.ts` | [backend/index.d.ts](./declarations/backend/index.md) | 13168 B |
 | `backend/ipc-main.d.ts` | [backend/ipc-main.d.ts](./declarations/backend/ipc-main.md) | 11676 B |
-| `backend/ipc.d.ts` | [backend/ipc.d.ts](./declarations/backend/ipc.md) | 4124 B |
+| `backend/ipc.d.ts` | [backend/ipc.d.ts](./declarations/backend/ipc.md) | 4109 B |
 | `backend/load-file-options.d.ts` | [backend/load-file-options.d.ts](./declarations/backend/load-file-options.md) | 227 B |
 | `backend/load-url-options.d.ts` | [backend/load-url-options.d.ts](./declarations/backend/load-url-options.md) | 1115 B |
-| `backend/location.d.ts` | [backend/location.d.ts](./declarations/backend/location.md) | 429 B |
+| `backend/location.d.ts` | [backend/location.d.ts](./declarations/backend/location.md) | 424 B |
 | `backend/logger.d.ts` | [backend/logger.d.ts](./declarations/backend/logger.md) | 816 B |
 | `backend/menu.d.ts` | [backend/menu.d.ts](./declarations/backend/menu.md) | 13821 B |
 | `backend/message-channel-main.d.ts` | [backend/message-channel-main.d.ts](./declarations/backend/message-channel-main.md) | 1671 B |
 | `backend/motion.d.ts` | [backend/motion.d.ts](./declarations/backend/motion.md) | 2879 B |
 | `backend/native-image.d.ts` | [backend/native-image.d.ts](./declarations/backend/native-image.md) | 5930 B |
-| `backend/native-theme.d.ts` | [backend/native-theme.d.ts](./declarations/backend/native-theme.md) | 3005 B |
+| `backend/native-theme.d.ts` | [backend/native-theme.d.ts](./declarations/backend/native-theme.md) | 3000 B |
 | `backend/net-log-default.d.ts` | [backend/net-log-default.d.ts](./declarations/backend/net-log-default.md) | 89 B |
 | `backend/net-log.d.ts` | [backend/net-log.d.ts](./declarations/backend/net-log.md) | 896 B |
 | `backend/net.d.ts` | [backend/net.d.ts](./declarations/backend/net.md) | 6511 B |
@@ -121,10 +121,10 @@ Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
 | `backend/session.d.ts` | [backend/session.d.ts](./declarations/backend/session.md) | 26657 B |
 | `backend/share-menu.d.ts` | [backend/share-menu.d.ts](./declarations/backend/share-menu.md) | 1207 B |
 | `backend/shell.d.ts` | [backend/shell.d.ts](./declarations/backend/shell.md) | 2808 B |
-| `backend/system-preferences.d.ts` | [backend/system-preferences.d.ts](./declarations/backend/system-preferences.md) | 9430 B |
-| `backend/tray.d.ts` | [backend/tray.d.ts](./declarations/backend/tray.md) | 8699 B |
+| `backend/system-preferences.d.ts` | [backend/system-preferences.d.ts](./declarations/backend/system-preferences.md) | 9370 B |
+| `backend/tray.d.ts` | [backend/tray.d.ts](./declarations/backend/tray.md) | 8694 B |
 | `backend/types.d.ts` | [backend/types.d.ts](./declarations/backend/types.md) | 3522 B |
-| `backend/web-contents.d.ts` | [backend/web-contents.d.ts](./declarations/backend/web-contents.md) | 42192 B |
+| `backend/web-contents.d.ts` | [backend/web-contents.d.ts](./declarations/backend/web-contents.md) | 42182 B |
 | `backend/web-frame-main.d.ts` | [backend/web-frame-main.d.ts](./declarations/backend/web-frame-main.md) | 2599 B |
 | `backend/web-request.d.ts` | [backend/web-request.d.ts](./declarations/backend/web-request.md) | 7845 B |
 | `backend/window-load-aborted-error.d.ts` | [backend/window-load-aborted-error.d.ts](./declarations/backend/window-load-aborted-error.md) | 331 B |
@@ -220,7 +220,7 @@ Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
 | `global.d.ts` | [global.d.ts](./declarations/global.md) | 39494 B |
 | `hooks/index.d.ts` | [hooks/index.d.ts](./declarations/hooks/index.md) | 1066 B |
 | `hooks/use-connection.d.ts` | [hooks/use-connection.d.ts](./declarations/hooks/use-connection.md) | 705 B |
-| `hooks/use-glaze-ai.d.ts` | [hooks/use-glaze-ai.d.ts](./declarations/hooks/use-glaze-ai.md) | 10793 B |
+| `hooks/use-glaze-ai.d.ts` | [hooks/use-glaze-ai.d.ts](./declarations/hooks/use-glaze-ai.md) | 10788 B |
 | `hooks/use-native-dropdown-menu.d.ts` | [hooks/use-native-dropdown-menu.d.ts](./declarations/hooks/use-native-dropdown-menu.md) | 1459 B |
 | `hooks/use-native-menu-icon.d.ts` | [hooks/use-native-menu-icon.d.ts](./declarations/hooks/use-native-menu-icon.md) | 1816 B |
 | `hooks/use-native-select.d.ts` | [hooks/use-native-select.d.ts](./declarations/hooks/use-native-select.md) | 1792 B |
@@ -236,10 +236,10 @@ Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
 | `ipc/native-api.d.ts` | [ipc/native-api.d.ts](./declarations/ipc/native-api.md) | 10859 B |
 | `ipc/types.d.ts` | [ipc/types.d.ts](./declarations/ipc/types.md) | 930 B |
 | `oauth/index.d.ts` | [oauth/index.d.ts](./declarations/oauth/index.md) | 4510 B |
-| `preload/clipboard.d.ts` | [preload/clipboard.d.ts](./declarations/preload/clipboard.md) | 604 B |
+| `preload/clipboard.d.ts` | [preload/clipboard.d.ts](./declarations/preload/clipboard.md) | 599 B |
 | `preload/display-media.d.ts` | [preload/display-media.d.ts](./declarations/preload/display-media.md) | 59 B |
 | `preload/index.d.ts` | [preload/index.d.ts](./declarations/preload/index.md) | 3786 B |
-| `preload/location.d.ts` | [preload/location.d.ts](./declarations/preload/location.md) | 613 B |
+| `preload/location.d.ts` | [preload/location.d.ts](./declarations/preload/location.md) | 598 B |
 | `preload/native-image.d.ts` | [preload/native-image.d.ts](./declarations/preload/native-image.md) | 3449 B |
 | `preload/web-utils.d.ts` | [preload/web-utils.d.ts](./declarations/preload/web-utils.md) | 327 B |
 | `utils/cn.d.ts` | [utils/cn.d.ts](./declarations/utils/cn.md) | 101 B |
@@ -249,7 +249,7 @@ Symbol maps: [symbols.json](./symbols.json), [symbols.ndjson](./symbols.ndjson)
 | `utils/logging-init.d.ts` | [utils/logging-init.d.ts](./declarations/utils/logging-init.md) | 45 B |
 | `utils/menu.d.ts` | [utils/menu.d.ts](./declarations/utils/menu.md) | 2794 B |
 | `utils/native-image.d.ts` | [utils/native-image.d.ts](./declarations/utils/native-image.md) | 1357 B |
-| `utils/native-menu-helpers.d.ts` | [utils/native-menu-helpers.d.ts](./declarations/utils/native-menu-helpers.md) | 3311 B |
+| `utils/native-menu-helpers.d.ts` | [utils/native-menu-helpers.d.ts](./declarations/utils/native-menu-helpers.md) | 3301 B |
 | `utils/os.d.ts` | [utils/os.d.ts](./declarations/utils/os.md) | 241 B |
 | `utils/trace.d.ts` | [utils/trace.d.ts](./declarations/utils/trace.md) | 775 B |
 

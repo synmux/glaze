@@ -1,5 +1,5 @@
 import * as React from "react";
-import { type AIStatus } from "./ai-status";
+import type { AIStatus } from "./ai-status";
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from "./collapsible";
 interface ToolRootProps extends React.ComponentProps<typeof CollapsibleRoot> {
     status: AIStatus;

@@ -6,7 +6,7 @@
 import { EventEmitter } from "events";
 import { Menu, type MenuItemColor } from "./menu.js";
 import { type NativeImage } from "./native-image.js";
-import { type Point, type Rectangle } from "./screen.js";
+import type { Point, Rectangle } from "./screen.js";
 /**
  * Tray click event with modifier keys
  */

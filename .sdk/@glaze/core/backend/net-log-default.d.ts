@@ -1,2 +1,2 @@
-import { type NetLogLike } from "./net-log.js";
+import type { NetLogLike } from "./net-log.js";
 export declare const netLog: NetLogLike;

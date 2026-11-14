@@ -9,7 +9,7 @@ import {
   type DropdownMenuSide,
   type DropdownMenuAlign,
 } from "../hooks/use-native-dropdown-menu";
-import { type MenuItemColor } from "../backend/menu.js";
+import type { MenuItemColor } from "../backend/menu.js";
 
 // These marker components render nothing; the parent reads their props to build the native menu.
 

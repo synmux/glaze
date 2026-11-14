@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
-import { type BrowserWindow } from "./browser-window.js";
+import type { BrowserWindow } from "./browser-window.js";
 import { type MenuPopupSourceType, type SharingItem } from "./menu.js";
-import { type WebFrameMain } from "./web-frame-main.js";
+import type { WebFrameMain } from "./web-frame-main.js";
 export interface ShareMenuPopupOptions {
     browserWindow?: BrowserWindow;
     x?: number;

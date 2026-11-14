@@ -11,7 +11,7 @@ Usage guide: `@glaze/core/src/components/text.md` (join to the runtime `SDK Path
 ## Declaration
 ```ts
 import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { textVariants } from "./text-variants";
 export interface TextProps extends Omit<React.ComponentProps<"span">, "color">, VariantProps<typeof textVariants> {
     /** Render as a different semantic element (`p`, `h1`–`h4`, `label`, …) instead of a `span`. */

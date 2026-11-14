@@ -1,4 +1,4 @@
-import { type GlazeIPCServer } from "./ipc.js";
+import type { GlazeIPCServer } from "./ipc.js";
 export type ProtocolPrivileges = {
     standard?: boolean;
     secure?: boolean;

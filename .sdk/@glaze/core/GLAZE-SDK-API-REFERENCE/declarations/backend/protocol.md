@@ -12,7 +12,7 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
 | `@glaze/core/backend#ProtocolResponse` | type export | No |
 ## Declaration
 ```ts
-import { type GlazeIPCServer } from "./ipc.js";
+import type { GlazeIPCServer } from "./ipc.js";
 export type ProtocolPrivileges = {
     standard?: boolean;
     secure?: boolean;

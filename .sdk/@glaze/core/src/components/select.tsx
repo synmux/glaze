@@ -10,7 +10,7 @@ import {
   type NativeSelectGroup as NativeSelectGroupType,
   type NativeSelectOption,
 } from "../hooks/use-native-select";
-import { type NativeMenuIcon } from "../utils/native-menu-helpers";
+import type { NativeMenuIcon } from "../utils/native-menu-helpers";
 import { useNativeMenuIcon, type NativeMenuIconData } from "../hooks/use-native-menu-icon";
 
 // These marker components render nothing; the parent reads their props to build the native menu.

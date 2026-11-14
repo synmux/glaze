@@ -8,6 +8,6 @@ Included by entrypoints: `@glaze/core/backend`
 | `@glaze/core/backend#netLog` | export | No |
 ## Declaration
 ```ts
-import { type NetLogLike } from "./net-log.js";
+import type { NetLogLike } from "./net-log.js";
 export declare const netLog: NetLogLike;
 ```

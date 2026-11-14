@@ -1,6 +1,6 @@
 import * as React from "react";
 import { type VariantProps } from "class-variance-authority";
-import { type NativeMenuIcon } from "../utils/native-menu-helpers";
+import type { NativeMenuIcon } from "../utils/native-menu-helpers";
 interface SelectItemProps {
     /** Value for this item */
     value: string;

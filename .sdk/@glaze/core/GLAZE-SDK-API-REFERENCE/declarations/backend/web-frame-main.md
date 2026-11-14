@@ -12,8 +12,8 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
 ```ts
 import { EventEmitter } from "events";
 import { type ScopedIpcMain } from "./ipc-main.js";
-import { type MessagePortMain } from "./message-channel-main.js";
-import { type WebContents } from "./web-contents.js";
+import type { MessagePortMain } from "./message-channel-main.js";
+import type { WebContents } from "./web-contents.js";
 export interface WebFrameMainEvents {
     "dom-ready": () => void;
 }

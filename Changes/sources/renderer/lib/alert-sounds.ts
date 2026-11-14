@@ -1,16 +1,7 @@
-export const SOUND_OPTIONS = [
-  "none",
-  "gentle",
-  "alarm",
-  "siren",
-  "foghorn",
-] as const;
+export const SOUND_OPTIONS = ["none", "gentle", "alarm", "siren", "foghorn"] as const;
 export type SoundOption = (typeof SOUND_OPTIONS)[number];
 
-export const SOUND_META: Record<
-  SoundOption,
-  { label: string; description: string }
-> = {
+export const SOUND_META: Record<SoundOption, { label: string; description: string }> = {
   none: { label: "None", description: "Silent — the popup still appears." },
   gentle: { label: "Gentle chime", description: "Soft two-tone bell." },
   alarm: { label: "Alarm", description: "Sharp alternating beeps." },
@@ -40,11 +31,7 @@ function tone(
 }
 
 /** Plays one cycle of `option` starting at `at` and returns how long (seconds) until the next cycle should start. */
-export function playSoundCycle(
-  ctx: AudioContext,
-  option: SoundOption,
-  at: number,
-): number {
+export function playSoundCycle(ctx: AudioContext, option: SoundOption, at: number): number {
   switch (option) {
     case "none":
       return 1;
@@ -55,9 +42,7 @@ export function playSoundCycle(
       return 3;
 
     case "alarm":
-      [1200, 900, 1200, 900].forEach((freq, i) =>
-        tone(ctx, freq, "square", at + i * 0.14, 0.11, 0.3, 0.005),
-      );
+      [1200, 900, 1200, 900].forEach((freq, i) => tone(ctx, freq, "square", at + i * 0.14, 0.11, 0.3, 0.005));
       return 0.9;
 
     case "siren": {

@@ -13,7 +13,7 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
  *
  * Handles backend IPC communication between backend and frontend
  */
-import { type IPCHandler, type IPCHandlerExecutionOptions, type IPCNotificationOptions, type StreamingIPCHandler } from "./types.js";
+import type { IPCHandler, IPCHandlerExecutionOptions, IPCNotificationOptions, StreamingIPCHandler } from "./types.js";
 type IPCServerStartOptions = {
     markReady?: boolean;
 };

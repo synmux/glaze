@@ -2,7 +2,7 @@ import * as React from "react";
 import { CheckCircle2Icon, CircleDashedIcon, Loader2Icon, XCircleIcon } from "lucide-react";
 
 import { cn } from "../utils/cn";
-import { type AIStatus } from "./ai-status";
+import type { AIStatus } from "./ai-status";
 
 function Root({ className, ...props }: React.ComponentProps<"div">) {
   return <div data-slot="task-list-root" className={cn("flex flex-col gap-0.5", className)} {...props} />;

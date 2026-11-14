@@ -4,7 +4,7 @@
  * Exposes system preference APIs on macOS through the native bridge.
  */
 import { EventEmitter } from "events";
-import { type AskForMediaAccessType, type MediaAccessType, type PermissionStatus, type SystemPreferencesAnimationSettings, type SystemPreferencesAuthorizationType, type SystemPreferencesEffectiveAppearance, type SystemPreferencesJSONValue, type SystemPreferencesNotificationCallback, type SystemPreferencesNotificationPayload, type SystemPreferencesPreferredScrollerStyle, type SystemPreferencesPropertyListValue, type SystemPreferencesUserDefaultType, type SystemPreferencesUserDefaultValue } from "../ipc/native-api.js";
+import type { AskForMediaAccessType, MediaAccessType, PermissionStatus, SystemPreferencesAnimationSettings, SystemPreferencesAuthorizationType, SystemPreferencesEffectiveAppearance, SystemPreferencesJSONValue, SystemPreferencesNotificationCallback, SystemPreferencesNotificationPayload, SystemPreferencesPreferredScrollerStyle, SystemPreferencesPropertyListValue, SystemPreferencesUserDefaultType, SystemPreferencesUserDefaultValue } from "../ipc/native-api.js";
 interface SystemPreferencesEvents {
     notification: [payload: SystemPreferencesNotificationPayload];
 }

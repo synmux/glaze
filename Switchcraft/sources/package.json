@@ -39,15 +39,15 @@
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.31.0",
     "globals": "^17.3.0",
-    "oxfmt": "^0.78.0",
+    "oxfmt": "^0.26.0",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.20.5",
     "typescript": "^5.5.3",
@@ -67,15 +67,29 @@
     "variant": "local",
     "capabilities": {},
     "sdkVersion": "0.14.6.0",
-    "createdAt": "2026-11-13T19:26:56.224Z",
+    "createdAt": "2026-11-14T02:21:56.310Z",
     "lastMigration": "sdk-projection-paths",
     "host": {
       "minVersion": "0.14.6.0"
     },
-    "updatedAt": 1794601716465
-  },
-  "allowScripts": {
-    "esbuild@0.28.2": true,
-    "fsevents@2.3.3": true
+    "remix": {
+      "grantId": "a91c7128-d977-4b41-bdac-9ca91c9629bf",
+      "mode": "recover",
+      "attribution": false,
+      "sourceStoreAppId": "5af59583-d2a7-449a-bb7f-b278d4901f34",
+      "sourcePublicId": "feGRv7",
+      "sourceVersionId": "84a6a9c2-a8a2-4823-add0-1c455ba757ee",
+      "sourceVersion": "1.0.0",
+      "sourceDisplayName": "Switchcraft",
+      "sourceAuthorId": "da29627b-ea31-4db9-be90-35e12c94deb5",
+      "sourceAuthorName": "syn",
+      "sourceAuthorUsername": "syn",
+      "rootStoreAppId": "5af59583-d2a7-449a-bb7f-b278d4901f34",
+      "createdAt": "2026-11-14T02:21:56.310Z",
+      "setup": {
+        "status": "ready",
+        "updatedAt": "2026-11-14T02:22:11.194Z"
+      }
+    }
   }
 }

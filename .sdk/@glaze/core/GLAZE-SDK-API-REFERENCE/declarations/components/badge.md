@@ -11,7 +11,7 @@ Usage guide: `@glaze/core/src/components/badge.md` (join to the runtime `SDK Pat
 ## Declaration
 ```ts
 import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { badgeVariants, type BadgeColor } from "./badge-variants";
 export interface BadgeProps extends React.ComponentProps<"span">, VariantProps<typeof badgeVariants> {
     /** Color treatment. Defaults to `secondary` (soft neutral). */

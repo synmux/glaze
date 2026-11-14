@@ -11,7 +11,7 @@ Included by entrypoints: `@glaze/core/backend`
 | `@glaze/core/backend#SystemMemoryInfo` | type export | No |
 ## Declaration
 ```ts
-import { type CPUUsage } from "./app.js";
+import type { CPUUsage } from "./app.js";
 export interface ProcessHeapStatistics {
     totalHeapSize: number;
     totalHeapSizeExecutable: number;

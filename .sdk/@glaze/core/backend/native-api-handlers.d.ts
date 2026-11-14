@@ -7,7 +7,7 @@
  * Channel naming convention: "module:method" (e.g., "dialog:showOpenDialog")
  * Built-in modules use the `module:method` channel pattern.
  */
-import { type PermissionCapability } from "../ipc/native-api.js";
+import type { PermissionCapability } from "../ipc/native-api.js";
 type PermissionMethodName = "systemPreferences:getMediaAccessStatus" | "systemPreferences:askForMediaAccess" | "systemPreferences:requestScreenCaptureAccess" | "systemPreferences:getAuthorizationStatus" | "systemPreferences:isTrustedAccessibilityClient" | "location:getCurrentPosition";
 export interface NativeApiPermissionContext {
     method: PermissionMethodName;

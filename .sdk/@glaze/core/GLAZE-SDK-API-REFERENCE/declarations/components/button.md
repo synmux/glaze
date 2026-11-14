@@ -10,7 +10,7 @@ Usage guide: `@glaze/core/src/components/button.md` (join to the runtime `SDK Pa
 ## Declaration
 ```ts
 import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { buttonVariants } from "./button-variants";
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "size">, VariantProps<typeof buttonVariants> {
     asChild?: boolean;

@@ -1,4 +1,4 @@
-import { type CPUUsage } from "./app.js";
+import type { CPUUsage } from "./app.js";
 export interface ProcessHeapStatistics {
     totalHeapSize: number;
     totalHeapSizeExecutable: number;

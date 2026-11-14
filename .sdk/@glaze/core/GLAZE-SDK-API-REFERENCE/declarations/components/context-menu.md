@@ -20,7 +20,7 @@ Usage guide: `@glaze/core/src/components/context-menu.md` (join to the runtime `
 ```ts
 import * as React from "react";
 import { type NativeMenuIcon } from "../utils/native-menu-helpers";
-import { type MenuItemColor } from "../backend/menu.js";
+import type { MenuItemColor } from "../backend/menu.js";
 interface ContextMenuItemProps {
     icon?: NativeMenuIcon;
     sublabel?: string;

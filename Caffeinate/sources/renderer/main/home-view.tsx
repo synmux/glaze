@@ -1,12 +1,6 @@
 import * as React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Coffee,
-  MoonStar,
-  CalendarClock,
-  Monitor,
-  PanelBottom,
-} from "lucide-react";
+import { Coffee, MoonStar, CalendarClock, Monitor, PanelBottom } from "lucide-react";
 import {
   Toolbar,
   ToolbarContent,
@@ -77,14 +71,8 @@ function SettingRow({
 export function HomeView() {
   const queryClient = useQueryClient();
 
-  const statusQuery = useQuery({
-    queryKey: ["keepAwake"],
-    queryFn: keepAwakeApi.getStatus,
-  });
-  const settingsQuery = useQuery({
-    queryKey: ["settings"],
-    queryFn: keepAwakeApi.getSettings,
-  });
+  const statusQuery = useQuery({ queryKey: ["keepAwake"], queryFn: keepAwakeApi.getStatus });
+  const settingsQuery = useQuery({ queryKey: ["settings"], queryFn: keepAwakeApi.getSettings });
 
   const state = statusQuery.data ?? DEFAULT_STATE;
   const settings = settingsQuery.data ?? DEFAULT_SETTINGS;
@@ -99,26 +87,15 @@ export function HomeView() {
     });
   }, [queryClient]);
 
-  const applyState = (next: KeepAwakeState) =>
-    queryClient.setQueryData(["keepAwake"], next);
+  const applyState = (next: KeepAwakeState) => queryClient.setQueryData(["keepAwake"], next);
 
   const toggleAwake = useMutation({
-    mutationFn: () =>
-      state.active ? keepAwakeApi.stop() : keepAwakeApi.startIndefinite(),
+    mutationFn: () => (state.active ? keepAwakeApi.stop() : keepAwakeApi.startIndefinite()),
     onSuccess: applyState,
   });
-  const startFor = useMutation({
-    mutationFn: keepAwakeApi.startFor,
-    onSuccess: applyState,
-  });
-  const startUntil = useMutation({
-    mutationFn: keepAwakeApi.startAt,
-    onSuccess: applyState,
-  });
-  const setDisplay = useMutation({
-    mutationFn: keepAwakeApi.setKeepDisplayAwake,
-    onSuccess: applyState,
-  });
+  const startFor = useMutation({ mutationFn: keepAwakeApi.startFor, onSuccess: applyState });
+  const startUntil = useMutation({ mutationFn: keepAwakeApi.startAt, onSuccess: applyState });
+  const setDisplay = useMutation({ mutationFn: keepAwakeApi.setKeepDisplayAwake, onSuccess: applyState });
   const setHideDock = useMutation({
     mutationFn: keepAwakeApi.setHideDock,
     onSuccess: (value) =>
@@ -154,16 +131,10 @@ export function HomeView() {
             )}
           </div>
           <div className="flex flex-col items-center gap-0.5">
-            <Text variant="heading2">
-              {state.active ? "Keeping Awake" : "Sleep Allowed"}
-            </Text>
+            <Text variant="heading2">{state.active ? "Keeping Awake" : "Sleep Allowed"}</Text>
             {timed && state.endsAt ? (
               <>
-                <Text
-                  variant="heading1"
-                  color="accent"
-                  className="tabular-nums leading-tight"
-                >
+                <Text variant="heading1" color="accent" className="tabular-nums leading-tight">
                   {formatCountdown(remaining)}
                 </Text>
                 <Text variant="small" color="secondary">
@@ -172,9 +143,7 @@ export function HomeView() {
               </>
             ) : (
               <Text variant="small" color="secondary">
-                {state.mode === "indefinite"
-                  ? "Until you turn it off"
-                  : "Your Mac can sleep normally"}
+                {state.mode === "indefinite" ? "Until you turn it off" : "Your Mac can sleep normally"}
               </Text>
             )}
           </div>
@@ -194,20 +163,12 @@ export function HomeView() {
 
         {/* Timed sessions */}
         <section className="flex flex-col gap-3">
-          <Text
-            variant="small-strong"
-            color="secondary"
-            className="uppercase tracking-wide"
-          >
+          <Text variant="small-strong" color="secondary" className="uppercase tracking-wide">
             Keep awake for
           </Text>
           <div className="grid grid-cols-3 gap-2">
             {DURATION_PRESETS.map((preset) => (
-              <Button
-                key={preset.ms}
-                variant="muted"
-                onClick={() => startFor.mutate(preset.ms)}
-              >
+              <Button key={preset.ms} variant="muted" onClick={() => startFor.mutate(preset.ms)}>
                 {preset.label}
               </Button>
             ))}

@@ -8,8 +8,8 @@ import { BrowserWindow } from "./browser-window.js";
 import { Menu } from "./menu.js";
 import { type NativeImage } from "./native-image.js";
 import { Session, type Certificate, type ProxyConfig } from "./session.js";
-import { type RenderProcessGoneDetails, type RenderProcessGoneReason, type WebContents } from "./web-contents.js";
-import { type HapticFeedbackPattern } from "../ipc/native-api.js";
+import type { RenderProcessGoneDetails, RenderProcessGoneReason, WebContents } from "./web-contents.js";
+import type { HapticFeedbackPattern } from "../ipc/native-api.js";
 type AppLifecycleEventType = "before-quit" | "will-quit" | "quit";
 export declare class AppEvent {
     readonly type: AppLifecycleEventType;

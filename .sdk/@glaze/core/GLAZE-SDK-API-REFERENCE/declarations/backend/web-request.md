@@ -33,8 +33,8 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
 | `@glaze/core/backend#WebRequestResourceType` | type export | No |
 ## Declaration
 ```ts
-import { type WebContents } from "./web-contents.js";
-import { type WebFrameMain } from "./web-frame-main.js";
+import type { WebContents } from "./web-contents.js";
+import type { WebFrameMain } from "./web-frame-main.js";
 export type WebRequestResourceType = "mainFrame" | "subFrame" | "stylesheet" | "script" | "image" | "font" | "object" | "xhr" | "ping" | "cspReport" | "media" | "webSocket" | "other";
 export type WebRequestFilterType = Exclude<WebRequestResourceType, "other">;
 export interface WebRequestFilter {

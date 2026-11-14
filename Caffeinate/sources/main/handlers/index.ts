@@ -32,43 +32,32 @@ function asBoolean(value: unknown): boolean {
 }
 
 function asPositiveNumber(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) && value > 0
-    ? value
-    : 0;
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : 0;
 }
 
 export function registerHandlers(): void {
   logger.info("handlers", "Registering IPC handlers...");
 
   ipcMain.handle("app:getInfo", async () => appHandlers.getInfo());
-  ipcMain.handle("app:getProjectPath", async () =>
-    path.join(__dirname, "..", ".."),
-  );
+  ipcMain.handle("app:getProjectPath", async () => path.join(__dirname, "..", ".."));
 
   // ── Keep-awake ──────────────────────────────────────────────────────
   ipcMain.handle("keepAwake:getStatus", async () => getStatus());
   ipcMain.handle("keepAwake:startIndefinite", async () => startIndefinite());
-  ipcMain.handle("keepAwake:startFor", async (_event, durationMs: unknown) =>
-    startFor(asPositiveNumber(durationMs)),
-  );
+  ipcMain.handle("keepAwake:startFor", async (_event, durationMs: unknown) => startFor(asPositiveNumber(durationMs)));
   ipcMain.handle("keepAwake:startUntil", async () => {
     await promptAndStartUntil();
     return getStatus();
   });
-  ipcMain.handle("keepAwake:startAt", async (_event, endMs: unknown) =>
-    startAt(asPositiveNumber(endMs)),
-  );
+  ipcMain.handle("keepAwake:startAt", async (_event, endMs: unknown) => startAt(asPositiveNumber(endMs)));
   ipcMain.handle("keepAwake:stop", async () => stop());
-  ipcMain.handle(
-    "keepAwake:setKeepDisplayAwake",
-    async (_event, value: unknown) => setKeepDisplayAwake(asBoolean(value)),
+  ipcMain.handle("keepAwake:setKeepDisplayAwake", async (_event, value: unknown) =>
+    setKeepDisplayAwake(asBoolean(value)),
   );
 
   // ── Settings ────────────────────────────────────────────────────────
   ipcMain.handle("settings:get", async () => settingsService.get());
-  ipcMain.handle("settings:setHideDock", async (_event, value: unknown) =>
-    setHideDock(asBoolean(value)),
-  );
+  ipcMain.handle("settings:setHideDock", async (_event, value: unknown) => setHideDock(asBoolean(value)));
   ipcMain.handle("window:openControls", async () => {
     await showControlWindow();
   });

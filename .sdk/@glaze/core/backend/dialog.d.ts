@@ -4,8 +4,8 @@
  * Provides helpers for file dialogs, message boxes, and error boxes.
  */
 import { BrowserWindow } from "./browser-window.js";
-import { type Certificate } from "./session.js";
-import { type OpenDialogOptions, type OpenDialogResult, type SaveDialogOptions, type SaveDialogResult, type MessageBoxOptions, type MessageBoxResult, type DatePickerOptions, type DatePickerResult } from "../ipc/native-api.js";
+import type { Certificate } from "./session.js";
+import type { OpenDialogOptions, OpenDialogResult, SaveDialogOptions, SaveDialogResult, MessageBoxOptions, MessageBoxResult, DatePickerOptions, DatePickerResult } from "../ipc/native-api.js";
 export interface CertificateTrustDialogOptions {
     certificate: Certificate;
     message?: string;

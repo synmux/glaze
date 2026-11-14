@@ -1,5 +1,5 @@
 import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { timeFieldVariants } from "./time-field-variants";
 type TimeFieldOwnProps = {
     /** Current time as 24-hour `HH:mm` (e.g. `"14:30"`). Omit for uncontrolled mode. */

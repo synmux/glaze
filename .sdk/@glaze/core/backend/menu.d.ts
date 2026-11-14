@@ -6,8 +6,8 @@
  */
 import { EventEmitter } from "events";
 import { BrowserWindow } from "./browser-window.js";
-import { type NativeImage } from "./native-image.js";
-import { type WebFrameMain } from "./web-frame-main.js";
+import type { NativeImage } from "./native-image.js";
+import type { WebFrameMain } from "./web-frame-main.js";
 import { WebContents } from "./web-contents.js";
 /**
  * Supported menu item roles with predefined behaviors

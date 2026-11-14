@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Slot as SlotPrimitive } from "radix-ui";
-import { type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { cn } from "../utils/cn";
 import { buttonVariants } from "./button-variants";
 import { useInButtonGroup } from "./button-group-context";

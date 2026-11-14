@@ -25,9 +25,9 @@ Included by entrypoints: `@glaze/core/backend`, `@glaze/core/components`, `@glaz
  */
 import { EventEmitter } from "node:events";
 import { GlazeIPCServer } from "./ipc.js";
-import { type MessagePortMain } from "./message-channel-main.js";
-import { type WebFrameMain } from "./web-frame-main.js";
-import { type WebContents } from "./web-contents.js";
+import type { MessagePortMain } from "./message-channel-main.js";
+import type { WebFrameMain } from "./web-frame-main.js";
+import type { WebContents } from "./web-contents.js";
 import { type IPCAuthorizationContext, type IPCAuthorizationDecision, type StreamingIPCHandler } from "./types.js";
 export type IpcMainEventSender = WebContents & {
     /**

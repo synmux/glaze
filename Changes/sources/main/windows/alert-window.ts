@@ -1,10 +1,7 @@
 import { BrowserWindow, ipcMain, logger, shell } from "@glaze/core/backend";
 
 import { getPreloadPath, getWindowUrl } from "./window-paths.js";
-import {
-  pickLoudestSound,
-  type SoundOption,
-} from "../services/sound-options.js";
+import { pickLoudestSound, type SoundOption } from "../services/sound-options.js";
 import type { DiffLine } from "../services/text-diff.js";
 
 export interface PendingChange {
@@ -23,10 +20,7 @@ export function getPendingChanges(): PendingChange[] {
   return Array.from(pending.values()).sort((a, b) => b.changedAt - a.changedAt);
 }
 
-export function getAlertPayload(): {
-  changes: PendingChange[];
-  sound: SoundOption;
-} {
+export function getAlertPayload(): { changes: PendingChange[]; sound: SoundOption } {
   const changes = getPendingChanges();
   return { changes, sound: pickLoudestSound(changes.map((c) => c.sound)) };
 }
@@ -51,10 +45,7 @@ export async function openChangedUrl(id: string): Promise<void> {
   }
 }
 
-export async function showChangeAlert(
-  change: PendingChange,
-  sound: SoundOption,
-): Promise<void> {
+export async function showChangeAlert(change: PendingChange, sound: SoundOption): Promise<void> {
   pending.set(change.id, change);
 
   if (alertWindow && !alertWindow.isDestroyed()) {

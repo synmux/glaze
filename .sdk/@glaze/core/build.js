@@ -1629,6 +1629,12 @@ function startBackend(appRoot) {
   console.log(`${LOG_PREFIX} Mode: ${isDevelopment ? "development" : "production"}`);
   const backendArgs = isDevelopment ? resolveDevelopmentBackendArgs(appRoot, entryPoint) : resolveProductionBackendArgs(entryPoint);
   const spawnEnv = buildBackendSpawnEnv(process.env, isDevelopment);
+  process.on("SIGUSR2", () => {
+    console.log(`${LOG_PREFIX} Restart requested by native host`);
+    if (!backend.kill("SIGKILL")) {
+      process.exit(1e3);
+    }
+  });
   const backend = spawn2("node", backendArgs, {
     cwd: appRoot,
     env: spawnEnv,
@@ -1652,12 +1658,6 @@ function startBackend(appRoot) {
       backend.kill(sig);
     });
   }
-  process.on("SIGUSR2", () => {
-    console.log(`${LOG_PREFIX} Restart requested by native host`);
-    if (!backend.kill("SIGKILL")) {
-      process.exit(1e3);
-    }
-  });
   process.stdin.setEncoding("utf8");
   process.stdin.on("end", () => backend.kill("SIGTERM"));
   process.stdin.on("close", () => backend.kill("SIGTERM"));

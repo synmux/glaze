@@ -19,7 +19,7 @@ Included by entrypoints: `@glaze/core/ai`
  * glaze` block below) and returns a Glaze-billed Gemini image model, backed by the
  * gemini-proxy's `:generateContent` endpoint — see ./glaze-gemini-image.ts.
  */
-import { type ImageModel, type LanguageModel } from "ai";
+import type { ImageModel, LanguageModel } from "ai";
 import { type GlazeAiImageGrade } from "./glaze-gemini-image.js";
 /** Get a Glaze-billed language model by grade alias or exact model id. */
 export declare function glaze(modelOrAlias: "fast" | "smart" | "powerful" | (string & {})): LanguageModel;
