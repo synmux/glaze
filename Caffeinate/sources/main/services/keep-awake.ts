@@ -10,7 +10,12 @@
  * and to in-process subscribers (the tray controller) via `subscribe`.
  */
 
-import { powerSaveBlocker, Notification, ipcMain, logger } from "@glaze/core/backend";
+import {
+  powerSaveBlocker,
+  Notification,
+  ipcMain,
+  logger,
+} from "@glaze/core/backend";
 
 import { settingsService } from "./settings.js";
 
@@ -36,18 +41,27 @@ let endTimer: ReturnType<typeof setTimeout> | null = null;
 const listeners = new Set<Listener>();
 
 function desiredType(): PowerSaveBlockerType {
-  return settingsService.get().keepDisplayAwake ? "prevent-display-sleep" : "prevent-app-suspension";
+  return settingsService.get().keepDisplayAwake
+    ? "prevent-display-sleep"
+    : "prevent-app-suspension";
 }
 
 function startBlocker(): void {
   const type = desiredType();
-  if (blockerId !== null && powerSaveBlocker.isStarted(blockerId) && activeType === type) {
+  if (
+    blockerId !== null &&
+    powerSaveBlocker.isStarted(blockerId) &&
+    activeType === type
+  ) {
     return;
   }
   stopBlocker();
   blockerId = powerSaveBlocker.start(type);
   activeType = type;
-  logger.info("keep-awake", "Power save blocker started", { id: blockerId, type });
+  logger.info("keep-awake", "Power save blocker started", {
+    id: blockerId,
+    type,
+  });
 }
 
 function stopBlocker(): void {
@@ -127,7 +141,11 @@ export function startIndefinite(): KeepAwakeState {
 }
 
 export function startFor(durationMs: number): KeepAwakeState {
-  if (typeof durationMs !== "number" || !Number.isFinite(durationMs) || durationMs <= 0) {
+  if (
+    typeof durationMs !== "number" ||
+    !Number.isFinite(durationMs) ||
+    durationMs <= 0
+  ) {
     return getStatus();
   }
   beginTimed(Date.now() + durationMs);
@@ -151,7 +169,9 @@ export function stop(): KeepAwakeState {
   return getStatus();
 }
 
-export async function setKeepDisplayAwake(value: boolean): Promise<KeepAwakeState> {
+export async function setKeepDisplayAwake(
+  value: boolean,
+): Promise<KeepAwakeState> {
   await settingsService.set("keepDisplayAwake", value);
   if (mode !== "off") {
     startBlocker(); // restart with the new assertion type

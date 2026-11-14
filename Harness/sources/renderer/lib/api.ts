@@ -85,11 +85,14 @@ async function invoke<T>(channel: string, ...args: unknown[]): Promise<T> {
 
 export const api = {
   overview: () => invoke<SyncOverview>("harness:overview"),
-  saveServer: (server: McpServerInput) => invoke<SyncOverview>("harness:saveServer", server),
-  deleteServer: (id: string) => invoke<SyncOverview>("harness:deleteServer", id),
+  saveServer: (server: McpServerInput) =>
+    invoke<SyncOverview>("harness:saveServer", server),
+  deleteServer: (id: string) =>
+    invoke<SyncOverview>("harness:deleteServer", id),
   setTarget: (id: string, tool: ToolId, enabled: boolean) =>
     invoke<SyncOverview>("harness:setTarget", id, tool, enabled),
-  importServer: (name: string) => invoke<SyncOverview>("harness:importServer", name),
+  importServer: (name: string) =>
+    invoke<SyncOverview>("harness:importServer", name),
   takeToolVersion: (id: string, tool: ToolId) =>
     invoke<SyncOverview>("harness:takeToolVersion", id, tool),
   applyAll: () => invoke<SyncOverview>("harness:applyAll"),
@@ -97,10 +100,13 @@ export const api = {
   skills: () => invoke<SkillView[]>("harness:skills"),
   setSkillTarget: (name: string, tool: ToolId, enabled: boolean) =>
     invoke<SkillView[]>("harness:setSkillTarget", name, tool, enabled),
-  addSkill: () => invoke<{ name: string; skills: SkillView[] } | null>("harness:addSkill"),
+  addSkill: () =>
+    invoke<{ name: string; skills: SkillView[] } | null>("harness:addSkill"),
   migrationPlan: () => invoke<MigrationMove[]>("harness:migrationPlan"),
-  migrateSkills: () => invoke<{ moved: number; skills: SkillView[] }>("harness:migrateSkills"),
-  deleteSkill: (name: string) => invoke<SkillView[]>("harness:deleteSkill", name),
+  migrateSkills: () =>
+    invoke<{ moved: number; skills: SkillView[] }>("harness:migrateSkills"),
+  deleteSkill: (name: string) =>
+    invoke<SkillView[]>("harness:deleteSkill", name),
   revealSkill: (name: string) => invoke<void>("harness:revealSkill", name),
 
   plugins: () => invoke<PluginView[]>("harness:plugins"),

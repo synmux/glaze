@@ -29,8 +29,12 @@ export function RootView() {
       <div className="flex flex-col items-end gap-1 mt-2 fixed bottom-12 right-2">
         {import.meta.env.DEV ? (
           <>
-            {connectionQuery.error ? <Status variant="error">Backend disconnected</Status> : null}
-            {environmentQuery.data ? null : <Status variant="error">Dev Server not found</Status>}
+            {connectionQuery.error ? (
+              <Status variant="error">Backend disconnected</Status>
+            ) : null}
+            {environmentQuery.data ? null : (
+              <Status variant="error">Dev Server not found</Status>
+            )}
           </>
         ) : null}
       </div>

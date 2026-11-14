@@ -11,7 +11,11 @@ import {
   type WatchInput,
 } from "../services/watch-service.js";
 import { coerceSoundOption } from "../services/sound-options.js";
-import { dismissAlerts, getAlertPayload, openChangedUrl } from "../windows/alert-window.js";
+import {
+  dismissAlerts,
+  getAlertPayload,
+  openChangedUrl,
+} from "../windows/alert-window.js";
 
 function asRecord(value: unknown): Record<string, unknown> {
   if (typeof value !== "object" || value === null) {
@@ -22,7 +26,8 @@ function asRecord(value: unknown): Record<string, unknown> {
 
 function requireId(value: unknown): string {
   const { id } = asRecord(value);
-  if (typeof id !== "string" || id.length === 0) throw new Error("Invalid arguments: 'id' is required");
+  if (typeof id !== "string" || id.length === 0)
+    throw new Error("Invalid arguments: 'id' is required");
   return id;
 }
 
@@ -30,14 +35,21 @@ function parseWatchInput(value: unknown): WatchInput {
   const v = asRecord(value);
   const url = typeof v.url === "string" ? v.url.trim() : "";
   if (!/^https?:\/\//i.test(url)) {
-    throw new Error("Invalid arguments: 'url' must start with http:// or https://");
+    throw new Error(
+      "Invalid arguments: 'url' must start with http:// or https://",
+    );
   }
-  const intervalSeconds = typeof v.intervalSeconds === "number" && Number.isFinite(v.intervalSeconds)
-    ? Math.floor(v.intervalSeconds)
-    : 300;
+  const intervalSeconds =
+    typeof v.intervalSeconds === "number" && Number.isFinite(v.intervalSeconds)
+      ? Math.floor(v.intervalSeconds)
+      : 300;
   const jsonNormalize = v.jsonNormalize === true;
   const ignorePaths = Array.isArray(v.ignorePaths)
-    ? v.ignorePaths.filter((p): p is string => typeof p === "string" && p.trim().length > 0).map((p) => p.trim())
+    ? v.ignorePaths
+        .filter(
+          (p): p is string => typeof p === "string" && p.trim().length > 0,
+        )
+        .map((p) => p.trim())
     : [];
 
   if (jsonNormalize && ignorePaths.length > 0) validateIgnorePaths(ignorePaths);
@@ -57,9 +69,13 @@ function parseWatchInput(value: unknown): WatchInput {
 export function registerWatchHandlers(): void {
   ipcMain.handle("watches:list", async () => getWatches());
 
-  ipcMain.handle("watches:add", async (_event, input: unknown) => addWatch(parseWatchInput(input)), {
-    isMutation: true,
-  });
+  ipcMain.handle(
+    "watches:add",
+    async (_event, input: unknown) => addWatch(parseWatchInput(input)),
+    {
+      isMutation: true,
+    },
+  );
 
   ipcMain.handle(
     "watches:update",

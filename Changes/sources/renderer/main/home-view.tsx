@@ -12,7 +12,15 @@ import {
   Status,
   Text,
 } from "@glaze/core/components";
-import { Braces, FileDiff, MoreHorizontal, Plus, Shuffle, Volume2, VolumeX } from "lucide-react";
+import {
+  Braces,
+  FileDiff,
+  MoreHorizontal,
+  Plus,
+  Shuffle,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 
 import { WatchDialog } from "./watch-dialog";
 import { formatInterval, formatRelative, type Watch } from "./watch-types";
@@ -41,22 +49,28 @@ export function HomeView() {
 
   const { data: watches = [], isLoading } = useQuery({
     queryKey: ["watches"],
-    queryFn: async () => (await window.glazeAPI.glaze.ipc.invoke("watches:list")) as Watch[],
+    queryFn: async () =>
+      (await window.glazeAPI.glaze.ipc.invoke("watches:list")) as Watch[],
   });
 
   // Live updates pushed from the backend polling loop.
   useEffect(() => {
-    const off = window.glazeAPI.glaze.ipc.onNotification("watches:changed", (params) => {
-      const next = (params as { watches?: Watch[] })?.watches;
-      if (next) queryClient.setQueryData(["watches"], next);
-    });
+    const off = window.glazeAPI.glaze.ipc.onNotification(
+      "watches:changed",
+      (params) => {
+        const next = (params as { watches?: Watch[] })?.watches;
+        if (next) queryClient.setQueryData(["watches"], next);
+      },
+    );
     return () => off?.();
   }, [queryClient]);
 
-  const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["watches"] });
+  const invalidate = () =>
+    void queryClient.invalidateQueries({ queryKey: ["watches"] });
 
   const checkNow = useMutation({
-    mutationFn: (id: string) => window.glazeAPI.glaze.ipc.invoke("watches:checkNow", { id }),
+    mutationFn: (id: string) =>
+      window.glazeAPI.glaze.ipc.invoke("watches:checkNow", { id }),
   });
   const setEnabled = useMutation({
     mutationFn: ({ id, enabled }: { id: string; enabled: boolean }) =>
@@ -64,7 +78,8 @@ export function HomeView() {
     onSuccess: invalidate,
   });
   const remove = useMutation({
-    mutationFn: (id: string) => window.glazeAPI.glaze.ipc.invoke("watches:remove", { id }),
+    mutationFn: (id: string) =>
+      window.glazeAPI.glaze.ipc.invoke("watches:remove", { id }),
     onSuccess: invalidate,
   });
 
@@ -114,25 +129,43 @@ export function HomeView() {
             {watches.map((watch) => {
               const status = statusFor(watch);
               return (
-                <div key={watch.id} className="flex items-center gap-3 px-4 py-3">
+                <div
+                  key={watch.id}
+                  className="flex items-center gap-3 px-4 py-3"
+                >
                   <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                     <div className="flex min-w-0 items-center gap-2">
                       <Text variant="strong" truncate>
                         {watch.label || watch.url}
                       </Text>
                       {watch.jsonNormalize ? (
-                        <Braces className="size-3.5 shrink-0 text-tertiary" aria-label="JSON normalized" />
+                        <Braces
+                          className="size-3.5 shrink-0 text-tertiary"
+                          aria-label="JSON normalized"
+                        />
                       ) : null}
                       {watch.cacheBust ? (
-                        <Shuffle className="size-3.5 shrink-0 text-tertiary" aria-label="Cache busting enabled" />
+                        <Shuffle
+                          className="size-3.5 shrink-0 text-tertiary"
+                          aria-label="Cache busting enabled"
+                        />
                       ) : null}
                       {watch.showDiff ? (
-                        <FileDiff className="size-3.5 shrink-0 text-tertiary" aria-label="Diff shown in alert" />
+                        <FileDiff
+                          className="size-3.5 shrink-0 text-tertiary"
+                          aria-label="Diff shown in alert"
+                        />
                       ) : null}
                       {watch.sound !== "none" ? (
-                        <Volume2 className="size-3.5 shrink-0 text-tertiary" aria-label={`Sound: ${SOUND_META[watch.sound].label}`} />
+                        <Volume2
+                          className="size-3.5 shrink-0 text-tertiary"
+                          aria-label={`Sound: ${SOUND_META[watch.sound].label}`}
+                        />
                       ) : (
-                        <VolumeX className="size-3.5 shrink-0 text-quaternary" aria-label="Sound off" />
+                        <VolumeX
+                          className="size-3.5 shrink-0 text-quaternary"
+                          aria-label="Sound off"
+                        />
                       )}
                     </div>
                     {watch.label ? (
@@ -141,8 +174,11 @@ export function HomeView() {
                       </Text>
                     ) : null}
                     <Text variant="mini" color="tertiary" truncate>
-                      {formatInterval(watch.intervalSeconds)} · Checked {formatRelative(watch.lastCheckedAt)}
-                      {watch.lastStatus === "error" && watch.lastError ? ` · ${watch.lastError}` : ""}
+                      {formatInterval(watch.intervalSeconds)} · Checked{" "}
+                      {formatRelative(watch.lastCheckedAt)}
+                      {watch.lastStatus === "error" && watch.lastError
+                        ? ` · ${watch.lastError}`
+                        : ""}
                     </Text>
                   </div>
 
@@ -152,22 +188,39 @@ export function HomeView() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="transparent" size="small" iconOnly aria-label="Watch actions">
+                      <Button
+                        variant="transparent"
+                        size="small"
+                        iconOnly
+                        aria-label="Watch actions"
+                      >
                         <MoreHorizontal className="size-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onSelect={() => checkNow.mutate(watch.id)}>
+                      <DropdownMenuItem
+                        onSelect={() => checkNow.mutate(watch.id)}
+                      >
                         Check now
                       </DropdownMenuItem>
-                      <DropdownMenuItem onSelect={() => openEdit(watch)}>Edit…</DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => openEdit(watch)}>
+                        Edit…
+                      </DropdownMenuItem>
                       <DropdownMenuItem
-                        onSelect={() => setEnabled.mutate({ id: watch.id, enabled: !watch.enabled })}
+                        onSelect={() =>
+                          setEnabled.mutate({
+                            id: watch.id,
+                            enabled: !watch.enabled,
+                          })
+                        }
                       >
                         {watch.enabled ? "Pause" : "Resume"}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem color="red" onSelect={() => remove.mutate(watch.id)}>
+                      <DropdownMenuItem
+                        color="red"
+                        onSelect={() => remove.mutate(watch.id)}
+                      >
                         Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -179,7 +232,11 @@ export function HomeView() {
         )}
       </ScrollArea>
 
-      <WatchDialog open={dialogOpen} onOpenChange={setDialogOpen} editing={editing} />
+      <WatchDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        editing={editing}
+      />
     </>
   );
 }

@@ -54,7 +54,12 @@ const pluginsRoute = createRoute({
   component: PluginsView,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, mcpRoute, skillsRoute, pluginsRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  mcpRoute,
+  skillsRoute,
+  pluginsRoute,
+]);
 
 const queryClient = new QueryClient();
 

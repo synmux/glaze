@@ -1,0 +1,81 @@
+{
+  "id": "23kd1f1z",
+  "name": "switchcraft",
+  "version": "1.0.0",
+  "productName": "Switchcraft",
+  "description": "Switch audio setups with a single click",
+  "iconDescription": "A macOS menu bar tool that instantly switches the Mac’s sound devices and volumes between presets. Visualize a toggle-like glyph merging a speaker icon with a small plug and a slider. Imagine a compact guild tablet or badge that represents switching between audio setups such as desk speakers, headset, or mic. Include subtle indicators for connected status and volume linkage; color hints for active preset. Aesthetic: clean, concise, techy.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "sh ./glaze-node.sh build",
+    "dev": "sh ./glaze-node.sh dev",
+    "dev:renderer": "sh ./glaze-node.sh dev:renderer",
+    "lint": "sh ./glaze-node.sh lint",
+    "type-check": "sh ./glaze-node.sh type-check",
+    "format": "sh ./glaze-node.sh format",
+    "verify": "sh ./glaze-node.sh verify --json",
+    "launch": "sh ./glaze-node.sh launch --wait --json",
+    "update-bundle": "sh ./glaze-node.sh update-bundle --wait --json",
+    "repackage": "sh ./glaze-node.sh repackage --wait --json"
+  },
+  "dependencies": {
+    "@radix-ui/colors": "^3.0.0",
+    "@tanstack/react-query": "^5.87.4",
+    "@tanstack/react-router": "^1.131.36",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "lucide-react": "^0.542.0",
+    "radix-ui": "^1.4.3",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@rolldown/plugin-babel": "^0.2.1",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^17.3.0",
+    "oxfmt": "^0.78.0",
+    "tailwindcss": "^4.2.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.5.3",
+    "vite": "^8.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "npm@11.11.0+sha512-82gRxKrh/eY5UnNorkTFcdBQAGpgjWehkfGVqAGlJjejEtJZGGJUqjo3mbBTNbc5BTnPKGVtGPBZGhElujX5cw==",
+  "appConfig": {
+    "macOS": {
+      "activationPolicy": "accessory"
+    }
+  },
+  "glaze": {
+    "appId": "switchcraft-local-23kd1f1z",
+    "variant": "local",
+    "capabilities": {},
+    "sdkVersion": "0.14.6.0",
+    "createdAt": "2026-11-13T19:26:56.224Z",
+    "lastMigration": "sdk-projection-paths",
+    "host": {
+      "minVersion": "0.14.6.0"
+    },
+    "updatedAt": 1794601716465
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true
+  }
+}

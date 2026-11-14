@@ -1,4 +1,11 @@
-import { Button, Field, FieldSet, ScrollArea, Switch, toast } from "@glaze/core/components";
+import {
+  Button,
+  Field,
+  FieldSet,
+  ScrollArea,
+  Switch,
+  toast,
+} from "@glaze/core/components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api, type LibrarySettings } from "../lib/api";
@@ -7,17 +14,23 @@ declare const __APP_DISPLAY_NAME__: string | undefined;
 
 export function SettingsView() {
   const queryClient = useQueryClient();
-  const settings = useQuery({ queryKey: ["settings"], queryFn: api.getSettings });
+  const settings = useQuery({
+    queryKey: ["settings"],
+    queryFn: api.getSettings,
+  });
 
   const save = async (partial: Partial<LibrarySettings>) => {
     const previous = queryClient.getQueryData<LibrarySettings>(["settings"]);
-    if (previous) queryClient.setQueryData(["settings"], { ...previous, ...partial });
+    if (previous)
+      queryClient.setQueryData(["settings"], { ...previous, ...partial });
     try {
       const next = await api.saveSettings(partial);
       queryClient.setQueryData(["settings"], next);
     } catch (error) {
       queryClient.setQueryData(["settings"], previous);
-      toast.error(error instanceof Error ? error.message : "Couldn't save settings.");
+      toast.error(
+        error instanceof Error ? error.message : "Couldn't save settings.",
+      );
     }
   };
 
@@ -42,7 +55,10 @@ export function SettingsView() {
               onCheckedChange={(checked) => save({ autoApply: checked })}
             />
           </Field>
-          <Field label="Backups to keep" description="A copy is saved before every write.">
+          <Field
+            label="Backups to keep"
+            description="A copy is saved before every write."
+          >
             <input
               aria-label="Backups to keep"
               type="number"
@@ -50,7 +66,9 @@ export function SettingsView() {
               max={200}
               value={current?.backupKeep ?? 20}
               disabled={!current}
-              onChange={(event) => save({ backupKeep: Number(event.target.value) })}
+              onChange={(event) =>
+                save({ backupKeep: Number(event.target.value) })
+              }
               className="h-7 w-20 rounded-md bg-control-subtle px-2 text-right text-small tabular-nums outline-none"
             />
           </Field>

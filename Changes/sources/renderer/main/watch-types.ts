@@ -43,9 +43,14 @@ export function toSeconds(value: number, unit: IntervalUnit): number {
   return Math.max(5, Math.round(value * UNIT_SECONDS[unit]));
 }
 
-export function fromSeconds(totalSeconds: number): { value: number; unit: IntervalUnit } {
-  if (totalSeconds % 3600 === 0 && totalSeconds >= 3600) return { value: totalSeconds / 3600, unit: "hours" };
-  if (totalSeconds % 60 === 0 && totalSeconds >= 60) return { value: totalSeconds / 60, unit: "minutes" };
+export function fromSeconds(totalSeconds: number): {
+  value: number;
+  unit: IntervalUnit;
+} {
+  if (totalSeconds % 3600 === 0 && totalSeconds >= 3600)
+    return { value: totalSeconds / 3600, unit: "hours" };
+  if (totalSeconds % 60 === 0 && totalSeconds >= 60)
+    return { value: totalSeconds / 60, unit: "minutes" };
   return { value: totalSeconds, unit: "seconds" };
 }
 

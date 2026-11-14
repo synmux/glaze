@@ -10,7 +10,10 @@ import { fileURLToPath } from "url";
 import { appHandlers } from "./app.js";
 import { registerWatchHandlers } from "./watches.js";
 import { startWatchService } from "../services/watch-service.js";
-import { getSettingsWindow, openSettingsWindow } from "../windows/settings-window.js";
+import {
+  getSettingsWindow,
+  openSettingsWindow,
+} from "../windows/settings-window.js";
 
 import { ipcMain, logger } from "@glaze/core/backend";
 

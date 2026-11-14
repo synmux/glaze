@@ -22,7 +22,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FolderPlus, Import } from "lucide-react";
 import * as React from "react";
 
-import { api, TOOLS, toolLabel, type MigrationMove, type SkillView, type ToolId } from "../lib/api";
+import {
+  api,
+  TOOLS,
+  toolLabel,
+  type MigrationMove,
+  type SkillView,
+  type ToolId,
+} from "../lib/api";
 
 const SKILL_TOOLS = TOOLS.filter((tool) => tool.id !== "claudeDesktop");
 
@@ -34,14 +41,17 @@ export function SkillsView() {
   const [plan, setPlan] = React.useState<MigrationMove[] | null>(null);
   const [pendingDelete, setPendingDelete] = React.useState<string | null>(null);
 
-  const refresh = (next: SkillView[]) => queryClient.setQueryData(["skills"], next);
+  const refresh = (next: SkillView[]) =>
+    queryClient.setQueryData(["skills"], next);
 
   const run = async (action: () => Promise<SkillView[]>, success: string) => {
     try {
       refresh(await action());
       toast.success(success);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong.");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong.",
+      );
     }
   };
 
@@ -50,7 +60,11 @@ export function SkillsView() {
       setPlan(await api.migrationPlan());
       setPlanOpen(true);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Couldn't read your skill folders.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Couldn't read your skill folders.",
+      );
     }
   };
 
@@ -136,7 +150,12 @@ export function SkillsView() {
                               checked={skill.targets[tool.id]}
                               onCheckedChange={(checked) =>
                                 run(
-                                  () => api.setSkillTarget(skill.name, tool.id, checked === true),
+                                  () =>
+                                    api.setSkillTarget(
+                                      skill.name,
+                                      tool.id,
+                                      checked === true,
+                                    ),
                                   checked
                                     ? `Linked ${skill.name} into ${tool.label}`
                                     : `Unlinked ${skill.name} from ${tool.label}`,
@@ -146,16 +165,24 @@ export function SkillsView() {
                           </TableCell>
                         ))}
                         <TableCell className="text-center">
-                          <Checkbox disabled aria-label="Claude Desktop has no skills folder" />
+                          <Checkbox
+                            disabled
+                            aria-label="Claude Desktop has no skills folder"
+                          />
                         </TableCell>
                       </TableRow>
                     </ContextMenuTrigger>
                     <ContextMenuContent>
-                      <ContextMenuItem onSelect={() => api.revealSkill(skill.name)}>
+                      <ContextMenuItem
+                        onSelect={() => api.revealSkill(skill.name)}
+                      >
                         Reveal in Finder
                       </ContextMenuItem>
                       <ContextMenuSeparator />
-                      <ContextMenuItem color="red" onSelect={() => setPendingDelete(skill.name)}>
+                      <ContextMenuItem
+                        color="red"
+                        onSelect={() => setPendingDelete(skill.name)}
+                      >
                         Delete
                       </ContextMenuItem>
                     </ContextMenuContent>
@@ -164,7 +191,8 @@ export function SkillsView() {
               </TableBody>
             </Table>
             <p className="px-4 pt-3 text-small text-tertiary">
-              Claude Desktop doesn't keep skills in a folder, so its column stays off.
+              Claude Desktop doesn't keep skills in a folder, so its column
+              stays off.
             </p>
           </div>
         )}
@@ -190,7 +218,10 @@ export function SkillsView() {
       >
         <ul className="flex flex-col divide-y divide-separator">
           {(plan ?? []).map((move) => (
-            <li key={move.name} className="flex items-baseline justify-between gap-3 py-1.5">
+            <li
+              key={move.name}
+              className="flex items-baseline justify-between gap-3 py-1.5"
+            >
               <span className="font-medium">{move.name}</span>
               <span className="text-small text-tertiary">
                 {move.keepIn.length > 0

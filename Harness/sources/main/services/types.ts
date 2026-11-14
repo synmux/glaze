@@ -5,7 +5,12 @@
 
 export type ToolId = "claudeCode" | "claudeDesktop" | "codex" | "goose";
 
-export const TOOL_IDS: ToolId[] = ["claudeCode", "claudeDesktop", "codex", "goose"];
+export const TOOL_IDS: ToolId[] = [
+  "claudeCode",
+  "claudeDesktop",
+  "codex",
+  "goose",
+];
 
 export const TOOL_LABELS: Record<ToolId, string> = {
   claudeCode: "Claude Code",
@@ -17,7 +22,12 @@ export const TOOL_LABELS: Record<ToolId, string> = {
 export type Targets = Record<ToolId, boolean>;
 
 export function emptyTargets(): Targets {
-  return { claudeCode: false, claudeDesktop: false, codex: false, goose: false };
+  return {
+    claudeCode: false,
+    claudeDesktop: false,
+    codex: false,
+    goose: false,
+  };
 }
 
 export type McpTransport = "stdio" | "http" | "sse";
@@ -111,7 +121,9 @@ export function kvToRecord(pairs: KeyValue[]): Record<string, string> {
   return out;
 }
 
-export function recordToKv(record: Record<string, string> | undefined): KeyValue[] {
+export function recordToKv(
+  record: Record<string, string> | undefined,
+): KeyValue[] {
   if (!record) return [];
   return Object.entries(record).map(([key, value]) => ({
     key,

@@ -3,14 +3,22 @@
 // The glaze CLI runtime automatically handles all framework wiring (IPC server,
 // native bridge, lifecycle, signal handlers) before this file runs.
 
-import { app, Menu, logger, initDevToolsButtonState } from "@glaze/core/backend";
+import {
+  app,
+  Menu,
+  logger,
+  initDevToolsButtonState,
+} from "@glaze/core/backend";
 
 import { registerHandlers } from "./handlers/index.js";
 import { settingsService } from "./services/settings.js";
 import { shutdown as shutdownKeepAwake } from "./services/keep-awake.js";
 import { applyDockVisibility } from "./services/dock.js";
 import { createTray, destroyTray } from "./tray/tray-controller.js";
-import { createControlWindow, showControlWindow } from "./windows/control-window.js";
+import {
+  createControlWindow,
+  showControlWindow,
+} from "./windows/control-window.js";
 
 // ── IPC Handlers ──────────────────────────────────────────────────────
 // ipcMain is already wired to the IPC server by the runtime bootstrap.
@@ -36,7 +44,8 @@ if (process.env.GLAZE_DEV_HARNESS === "1") {
   devHarness = (await import("./dev/parity-autotest.js")) as DevHarness;
   devHarness.applyParityScenarioStartup();
   // @ts-ignore dev-only harness; present only in the template, excluded from scaffolded apps
-  appAiDevHarness = (await import("./dev/app-ai-autotest.js")) as AppAiDevHarness;
+  appAiDevHarness =
+    (await import("./dev/app-ai-autotest.js")) as AppAiDevHarness;
 }
 
 // ── Application menu ──────────────────────────────────────────────────

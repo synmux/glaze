@@ -34,23 +34,31 @@ function normalize(raw: unknown): Library {
 
   if (isRecord(raw.settings)) {
     if (typeof raw.settings.backupKeep === "number") {
-      base.settings.backupKeep = Math.max(1, Math.min(200, raw.settings.backupKeep));
+      base.settings.backupKeep = Math.max(
+        1,
+        Math.min(200, raw.settings.backupKeep),
+      );
     }
     if (typeof raw.settings.autoApply === "boolean") {
       base.settings.autoApply = raw.settings.autoApply;
     }
   }
 
-  if (Array.isArray(raw.mcpServers)) base.mcpServers = raw.mcpServers as Library["mcpServers"];
+  if (Array.isArray(raw.mcpServers))
+    base.mcpServers = raw.mcpServers as Library["mcpServers"];
   if (Array.isArray(raw.skills)) base.skills = raw.skills as Library["skills"];
 
   for (const key of ["ownedMcp", "ownedSkills"] as const) {
     const section = raw[key];
     if (isRecord(section)) {
-      for (const tool of Object.keys(base[key]) as (keyof typeof base.ownedMcp)[]) {
+      for (const tool of Object.keys(
+        base[key],
+      ) as (keyof typeof base.ownedMcp)[]) {
         const list = section[tool];
         if (Array.isArray(list)) {
-          base[key][tool] = list.filter((item): item is string => typeof item === "string");
+          base[key][tool] = list.filter(
+            (item): item is string => typeof item === "string",
+          );
         }
       }
     }
@@ -80,7 +88,9 @@ export async function saveLibrary(library: Library): Promise<void> {
   cache = library;
 }
 
-export async function updateLibrary(mutate: (library: Library) => void): Promise<Library> {
+export async function updateLibrary(
+  mutate: (library: Library) => void,
+): Promise<Library> {
   const library = await loadLibrary();
   mutate(library);
   await saveLibrary(library);

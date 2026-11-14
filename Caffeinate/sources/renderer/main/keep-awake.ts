@@ -35,16 +35,23 @@ const ipc = () => window.glazeAPI.glaze.ipc;
 
 export const keepAwakeApi = {
   getStatus: () => ipc().invoke<KeepAwakeState>("keepAwake:getStatus"),
-  startIndefinite: () => ipc().invoke<KeepAwakeState>("keepAwake:startIndefinite"),
-  startFor: (durationMs: number) => ipc().invoke<KeepAwakeState>("keepAwake:startFor", durationMs),
+  startIndefinite: () =>
+    ipc().invoke<KeepAwakeState>("keepAwake:startIndefinite"),
+  startFor: (durationMs: number) =>
+    ipc().invoke<KeepAwakeState>("keepAwake:startFor", durationMs),
   startUntil: () => ipc().invoke<KeepAwakeState>("keepAwake:startUntil"),
-  startAt: (endMs: number) => ipc().invoke<KeepAwakeState>("keepAwake:startAt", endMs),
+  startAt: (endMs: number) =>
+    ipc().invoke<KeepAwakeState>("keepAwake:startAt", endMs),
   stop: () => ipc().invoke<KeepAwakeState>("keepAwake:stop"),
-  setKeepDisplayAwake: (value: boolean) => ipc().invoke<KeepAwakeState>("keepAwake:setKeepDisplayAwake", value),
+  setKeepDisplayAwake: (value: boolean) =>
+    ipc().invoke<KeepAwakeState>("keepAwake:setKeepDisplayAwake", value),
   getSettings: () => ipc().invoke<AppSettings>("settings:get"),
-  setHideDock: (value: boolean) => ipc().invoke<boolean>("settings:setHideDock", value),
+  setHideDock: (value: boolean) =>
+    ipc().invoke<boolean>("settings:setHideDock", value),
   onStatusChanged: (callback: (state: KeepAwakeState) => void): (() => void) =>
-    ipc().onNotification("keepAwake:statusChanged", (params) => callback(params as KeepAwakeState)),
+    ipc().onNotification("keepAwake:statusChanged", (params) =>
+      callback(params as KeepAwakeState),
+    ),
 };
 
 export const DURATION_PRESETS: { label: string; ms: number }[] = [
@@ -61,7 +68,9 @@ export function formatCountdown(ms: number): string {
   const minutes = Math.floor((total % 3600) / 60);
   const seconds = total % 60;
   const pad = (n: number) => n.toString().padStart(2, "0");
-  return hours > 0 ? `${hours}:${pad(minutes)}:${pad(seconds)}` : `${minutes}:${pad(seconds)}`;
+  return hours > 0
+    ? `${hours}:${pad(minutes)}:${pad(seconds)}`
+    : `${minutes}:${pad(seconds)}`;
 }
 
 export function formatEndTime(endsAt: number): string {
@@ -69,5 +78,10 @@ export function formatEndTime(endsAt: number): string {
   const sameDay = end.toDateString() === new Date().toDateString();
   return sameDay
     ? end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
-    : end.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    : end.toLocaleString([], {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
 }

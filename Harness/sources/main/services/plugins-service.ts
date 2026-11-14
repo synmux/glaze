@@ -32,7 +32,10 @@ async function claudePlugins(): Promise<PluginView[]> {
   if (!installedText) return [];
 
   const settings = settingsText ? (JSON.parse(settingsText) as unknown) : {};
-  const enabled = isRecord(settings) && isRecord(settings.enabledPlugins) ? settings.enabledPlugins : {};
+  const enabled =
+    isRecord(settings) && isRecord(settings.enabledPlugins)
+      ? settings.enabledPlugins
+      : {};
   const installed = JSON.parse(installedText) as unknown;
   if (!isRecord(installed) || !isRecord(installed.plugins)) return [];
 
@@ -48,7 +51,8 @@ async function claudePlugins(): Promise<PluginView[]> {
       marketplace: marketplace || "",
       version: first && typeof first.version === "string" ? first.version : "",
       enabled: enabled[id] !== false,
-      installPath: first && typeof first.installPath === "string" ? first.installPath : "",
+      installPath:
+        first && typeof first.installPath === "string" ? first.installPath : "",
     });
   }
   return views;
@@ -85,7 +89,10 @@ export async function listPlugins(): Promise<PluginView[]> {
     codexPlugins().catch(() => [] as PluginView[]),
   ]);
   return [...claude, ...codex].sort(
-    (a, b) => a.tool.localeCompare(b.tool) || a.marketplace.localeCompare(b.marketplace) || a.name.localeCompare(b.name),
+    (a, b) =>
+      a.tool.localeCompare(b.tool) ||
+      a.marketplace.localeCompare(b.marketplace) ||
+      a.name.localeCompare(b.name),
   );
 }
 
@@ -99,7 +106,9 @@ export async function setPluginEnabled(
     const text = await readText(file);
     if (!text) throw new Error("Claude Code settings weren't found.");
     const settings = JSON.parse(text) as Record<string, unknown>;
-    const plugins = isRecord(settings.enabledPlugins) ? settings.enabledPlugins : {};
+    const plugins = isRecord(settings.enabledPlugins)
+      ? settings.enabledPlugins
+      : {};
     plugins[id] = enabled;
     settings.enabledPlugins = plugins;
     await writeTextAtomic(file, `${JSON.stringify(settings, null, 2)}\n`);

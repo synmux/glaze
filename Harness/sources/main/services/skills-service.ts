@@ -2,8 +2,18 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import { migrationSkillDirs, pathsFor } from "./harness-paths.js";
-import { loadLibrary, saveLibrary, skillStoreDir, updateLibrary } from "./library-store.js";
-import { emptyTargets, TOOL_IDS, type SkillRecord, type ToolId } from "./types.js";
+import {
+  loadLibrary,
+  saveLibrary,
+  skillStoreDir,
+  updateLibrary,
+} from "./library-store.js";
+import {
+  emptyTargets,
+  TOOL_IDS,
+  type SkillRecord,
+  type ToolId,
+} from "./types.js";
 
 export interface SkillView extends SkillRecord {
   /** Absolute path of the master copy. */
@@ -19,7 +29,9 @@ export interface MigrationMove {
   keepIn: ToolId[];
 }
 
-async function readFrontmatter(skillDir: string): Promise<{ name: string; description: string }> {
+async function readFrontmatter(
+  skillDir: string,
+): Promise<{ name: string; description: string }> {
   const fallback = { name: path.basename(skillDir), description: "" };
   let text: string;
   try {
@@ -31,12 +43,17 @@ async function readFrontmatter(skillDir: string): Promise<{ name: string; descri
   const match = text.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return fallback;
 
-  const description = match[1].match(/^description:\s*(.+)$/m)?.[1]?.replace(/^['"]|['"]$/g, "");
+  const description = match[1]
+    .match(/^description:\s*(.+)$/m)?.[1]
+    ?.replace(/^['"]|['"]$/g, "");
   const name = match[1].match(/^name:\s*(.+)$/m)?.[1]?.trim();
   return { name: name || fallback.name, description: description ?? "" };
 }
 
-async function isLinkToStore(linkPath: string, storePath: string): Promise<boolean> {
+async function isLinkToStore(
+  linkPath: string,
+  storePath: string,
+): Promise<boolean> {
   try {
     const target = await fs.realpath(linkPath);
     return target === (await fs.realpath(storePath));
@@ -62,7 +79,9 @@ export async function listSkills(): Promise<SkillView[]> {
     const linkedIn = {} as Record<ToolId, boolean>;
     for (const tool of TOOL_IDS) {
       const dir = pathsFor(tool).skillsDir;
-      linkedIn[tool] = dir ? await isLinkToStore(path.join(dir, entry.name), storePath) : false;
+      linkedIn[tool] = dir
+        ? await isLinkToStore(path.join(dir, entry.name), storePath)
+        : false;
     }
 
     views.push({
@@ -78,7 +97,11 @@ export async function listSkills(): Promise<SkillView[]> {
   return views;
 }
 
-async function linkSkill(name: string, tool: ToolId, enabled: boolean): Promise<void> {
+async function linkSkill(
+  name: string,
+  tool: ToolId,
+  enabled: boolean,
+): Promise<void> {
   const dir = pathsFor(tool).skillsDir;
   if (!dir) return;
   const linkPath = path.join(dir, name);
@@ -98,12 +121,18 @@ async function linkSkill(name: string, tool: ToolId, enabled: boolean): Promise<
   const existing = await fs.lstat(linkPath).catch(() => null);
   if (existing?.isSymbolicLink()) await fs.unlink(linkPath);
   else if (existing) {
-    throw new Error(`${linkPath} already exists and isn't a link, so it was left alone.`);
+    throw new Error(
+      `${linkPath} already exists and isn't a link, so it was left alone.`,
+    );
   }
   await fs.symlink(relative, linkPath);
 }
 
-export async function setSkillTarget(name: string, tool: ToolId, enabled: boolean): Promise<void> {
+export async function setSkillTarget(
+  name: string,
+  tool: ToolId,
+  enabled: boolean,
+): Promise<void> {
   if (!pathsFor(tool).skillsDir) {
     throw new Error(`${pathsFor(tool).label} doesn't keep skills in a folder.`);
   }
@@ -143,7 +172,11 @@ export async function addSkillFromFolder(folder: string): Promise<string> {
   const meta = await readFrontmatter(destination);
 
   await updateLibrary((library) => {
-    library.skills.push({ name, description: meta.description, targets: emptyTargets() });
+    library.skills.push({
+      name,
+      description: meta.description,
+      targets: emptyTargets(),
+    });
   });
   return name;
 }
@@ -175,7 +208,8 @@ export async function planMigration(): Promise<MigrationMove[]> {
 
       const existing = seen.get(entry.name);
       if (existing) {
-        if (source.tool && !existing.keepIn.includes(source.tool)) existing.keepIn.push(source.tool);
+        if (source.tool && !existing.keepIn.includes(source.tool))
+          existing.keepIn.push(source.tool);
         continue;
       }
 
@@ -230,10 +264,16 @@ export async function migrateSkills(): Promise<number> {
 
     const record = library.skills.find((skill) => skill.name === move.name);
     if (record) record.targets = targets;
-    else library.skills.push({ name: move.name, description: meta.description, targets });
+    else
+      library.skills.push({
+        name: move.name,
+        description: meta.description,
+        targets,
+      });
 
     for (const tool of move.keepIn) {
-      if (!library.ownedSkills[tool].includes(move.name)) library.ownedSkills[tool].push(move.name);
+      if (!library.ownedSkills[tool].includes(move.name))
+        library.ownedSkills[tool].push(move.name);
     }
   }
 
@@ -243,7 +283,10 @@ export async function migrateSkills(): Promise<number> {
 
 export async function deleteSkill(name: string): Promise<void> {
   for (const tool of TOOL_IDS) await linkSkill(name, tool, false);
-  await fs.rm(path.join(skillStoreDir(), name), { recursive: true, force: true });
+  await fs.rm(path.join(skillStoreDir(), name), {
+    recursive: true,
+    force: true,
+  });
   await updateLibrary((library) => {
     library.skills = library.skills.filter((skill) => skill.name !== name);
   });

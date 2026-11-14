@@ -6,7 +6,14 @@
  * whose checkmarks/labels are rebuilt on every state change.
  */
 
-import { app, Tray, Menu, dialog, logger, type MenuItemConstructorOptions } from "@glaze/core/backend";
+import {
+  app,
+  Tray,
+  Menu,
+  dialog,
+  logger,
+  type MenuItemConstructorOptions,
+} from "@glaze/core/backend";
 
 import { settingsService } from "../services/settings.js";
 import { setHideDock } from "../services/dock.js";
@@ -47,7 +54,9 @@ function formatCountdown(ms: number): string {
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
   const seconds = total % 60;
-  return hours > 0 ? `${hours}:${pad(minutes)}:${pad(seconds)}` : `${minutes}:${pad(seconds)}`;
+  return hours > 0
+    ? `${hours}:${pad(minutes)}:${pad(seconds)}`
+    : `${minutes}:${pad(seconds)}`;
 }
 
 function formatEndTime(endsAt: number): string {
@@ -55,11 +64,17 @@ function formatEndTime(endsAt: number): string {
   const sameDay = end.toDateString() === new Date().toDateString();
   return sameDay
     ? end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
-    : end.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    : end.toLocaleString([], {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
 }
 
 function statusLabel(state: KeepAwakeState): string {
-  if (state.mode === "timed" && state.endsAt) return `Awake until ${formatEndTime(state.endsAt)}`;
+  if (state.mode === "timed" && state.endsAt)
+    return `Awake until ${formatEndTime(state.endsAt)}`;
   if (state.mode === "indefinite") return "Keeping awake";
   return "Sleep allowed";
 }
@@ -150,7 +165,9 @@ function buildMenu(state: KeepAwakeState): Menu {
       type: "checkbox",
       checked: app.getLoginItemSettings().openAtLogin,
       click: () => {
-        app.setLoginItemSettings({ openAtLogin: !app.getLoginItemSettings().openAtLogin });
+        app.setLoginItemSettings({
+          openAtLogin: !app.getLoginItemSettings().openAtLogin,
+        });
       },
     },
     { type: "separator" },
@@ -169,7 +186,9 @@ function updateTitle(): void {
   if (!tray) return;
   const state = getStatus();
   if (state.mode === "timed" && state.endsAt) {
-    tray.setTitle(formatCountdown(state.endsAt - Date.now()), { fontType: "monospacedDigit" });
+    tray.setTitle(formatCountdown(state.endsAt - Date.now()), {
+      fontType: "monospacedDigit",
+    });
   } else {
     tray.setTitle("");
   }

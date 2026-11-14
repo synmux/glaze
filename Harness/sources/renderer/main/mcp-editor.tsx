@@ -12,7 +12,12 @@ import {
 import { Plus, X } from "lucide-react";
 import * as React from "react";
 
-import { TOOLS, type KeyValue, type McpServerInput, type ToolId } from "../lib/api";
+import {
+  TOOLS,
+  type KeyValue,
+  type McpServerInput,
+  type ToolId,
+} from "../lib/api";
 
 interface McpEditorProps {
   open: boolean;
@@ -32,7 +37,12 @@ function blank(): McpServerInput {
     url: "",
     headers: [],
     timeoutSec: null,
-    targets: { claudeCode: false, claudeDesktop: false, codex: false, goose: false },
+    targets: {
+      claudeCode: false,
+      claudeDesktop: false,
+      codex: false,
+      goose: false,
+    },
   };
 }
 
@@ -96,17 +106,26 @@ function KeyValueEditor({
   );
 }
 
-export function McpEditor({ open, server, onOpenChange, onSave }: McpEditorProps) {
+export function McpEditor({
+  open,
+  server,
+  onOpenChange,
+  onSave,
+}: McpEditorProps) {
   const [draft, setDraft] = React.useState<McpServerInput>(server ?? blank());
 
   React.useEffect(() => {
     if (open) setDraft(server ?? blank());
   }, [open, server]);
 
-  const patch = (partial: Partial<McpServerInput>) => setDraft((current) => ({ ...current, ...partial }));
+  const patch = (partial: Partial<McpServerInput>) =>
+    setDraft((current) => ({ ...current, ...partial }));
 
   const toggleTarget = (tool: ToolId, checked: boolean) =>
-    setDraft((current) => ({ ...current, targets: { ...current.targets, [tool]: checked } }));
+    setDraft((current) => ({
+      ...current,
+      targets: { ...current.targets, [tool]: checked },
+    }));
 
   const remote = draft.transport !== "stdio";
 
@@ -134,10 +153,14 @@ export function McpEditor({ open, server, onOpenChange, onSave }: McpEditorProps
         <Field label="Transport" orientation="vertical">
           <SegmentedControl
             value={draft.transport}
-            onValueChange={(value) => patch({ transport: value as McpServerInput["transport"] })}
+            onValueChange={(value) =>
+              patch({ transport: value as McpServerInput["transport"] })
+            }
             aria-label="Transport"
           >
-            <SegmentedControlItem value="stdio">Local command</SegmentedControlItem>
+            <SegmentedControlItem value="stdio">
+              Local command
+            </SegmentedControlItem>
             <SegmentedControlItem value="http">HTTP</SegmentedControlItem>
             <SegmentedControlItem value="sse">SSE</SegmentedControlItem>
           </SegmentedControl>
@@ -160,13 +183,19 @@ export function McpEditor({ open, server, onOpenChange, onSave }: McpEditorProps
                 onChange={(event) => patch({ command: event.target.value })}
               />
             </Field>
-            <Field label="Arguments" description="Separated by spaces." orientation="vertical">
+            <Field
+              label="Arguments"
+              description="Separated by spaces."
+              orientation="vertical"
+            >
               <Input
                 placeholder="-y @scope/server"
                 value={draft.args.join(" ")}
                 onChange={(event) =>
                   patch({
-                    args: event.target.value.split(" ").filter((arg) => arg.length > 0),
+                    args: event.target.value
+                      .split(" ")
+                      .filter((arg) => arg.length > 0),
                   })
                 }
               />
@@ -194,7 +223,9 @@ export function McpEditor({ open, server, onOpenChange, onSave }: McpEditorProps
               <Label>
                 <Checkbox
                   checked={draft.targets[tool.id]}
-                  onCheckedChange={(checked) => toggleTarget(tool.id, checked === true)}
+                  onCheckedChange={(checked) =>
+                    toggleTarget(tool.id, checked === true)
+                  }
                 />
                 <span className="sr-only">{tool.label}</span>
               </Label>
@@ -204,7 +235,8 @@ export function McpEditor({ open, server, onOpenChange, onSave }: McpEditorProps
 
         {remote && draft.targets.claudeDesktop ? (
           <p className="text-small text-tertiary">
-            Claude Desktop only runs local servers, so this one will be bridged with mcp-remote.
+            Claude Desktop only runs local servers, so this one will be bridged
+            with mcp-remote.
           </p>
         ) : null}
       </div>

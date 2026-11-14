@@ -26,7 +26,9 @@ function asString(value: unknown): string {
 }
 
 function asStringList(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
 }
 
 function asStringRecord(value: unknown): Record<string, string> {
@@ -87,10 +89,12 @@ export function sameDefinition(server: McpServer, raw: RawMcp): boolean {
     server.url === raw.url &&
     (server.timeoutSec ?? null) === (raw.timeoutSec ?? null) &&
     JSON.stringify(server.args) === JSON.stringify(raw.args) &&
-    JSON.stringify(Object.fromEntries(server.env.map((pair) => [pair.key, pair.value]))) ===
-      JSON.stringify(raw.env) &&
-    JSON.stringify(Object.fromEntries(server.headers.map((pair) => [pair.key, pair.value]))) ===
-      JSON.stringify(raw.headers)
+    JSON.stringify(
+      Object.fromEntries(server.env.map((pair) => [pair.key, pair.value])),
+    ) === JSON.stringify(raw.env) &&
+    JSON.stringify(
+      Object.fromEntries(server.headers.map((pair) => [pair.key, pair.value])),
+    ) === JSON.stringify(raw.headers)
   );
 }
 

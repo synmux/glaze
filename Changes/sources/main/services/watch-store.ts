@@ -36,10 +36,13 @@ function coerceWatch(value: unknown): Watch | null {
     id: v.id,
     url: v.url,
     label: typeof v.label === "string" ? v.label : "",
-    intervalSeconds: typeof v.intervalSeconds === "number" ? v.intervalSeconds : 300,
+    intervalSeconds:
+      typeof v.intervalSeconds === "number" ? v.intervalSeconds : 300,
     sound: coerceSoundOption(v.sound),
     jsonNormalize: v.jsonNormalize === true,
-    ignorePaths: Array.isArray(v.ignorePaths) ? v.ignorePaths.filter((p): p is string => typeof p === "string") : [],
+    ignorePaths: Array.isArray(v.ignorePaths)
+      ? v.ignorePaths.filter((p): p is string => typeof p === "string")
+      : [],
     cacheBust: v.cacheBust === true,
     showDiff: v.showDiff === true,
     enabled: v.enabled !== false,
@@ -47,7 +50,9 @@ function coerceWatch(value: unknown): Watch | null {
     lastCheckedAt: typeof v.lastCheckedAt === "number" ? v.lastCheckedAt : null,
     lastChangedAt: typeof v.lastChangedAt === "number" ? v.lastChangedAt : null,
     lastStatus:
-      v.lastStatus === "watching" || v.lastStatus === "changed" || v.lastStatus === "error"
+      v.lastStatus === "watching" ||
+      v.lastStatus === "changed" ||
+      v.lastStatus === "error"
         ? v.lastStatus
         : "idle",
     lastError: typeof v.lastError === "string" ? v.lastError : null,

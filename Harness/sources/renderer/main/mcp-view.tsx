@@ -26,7 +26,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, RefreshCw } from "lucide-react";
 import * as React from "react";
 
-import { api, TOOLS, toolLabel, type McpRow, type McpServerInput, type ToolId } from "../lib/api";
+import {
+  api,
+  TOOLS,
+  toolLabel,
+  type McpRow,
+  type McpServerInput,
+  type ToolId,
+} from "../lib/api";
 import { McpEditor } from "./mcp-editor";
 
 const TRANSPORT_LABEL: Record<McpRow["transport"], string> = {
@@ -62,12 +69,17 @@ export function McpView() {
     queryClient.setQueryData(["overview"], next);
   };
 
-  const run = async (action: () => Promise<Awaited<ReturnType<typeof api.overview>>>, success: string) => {
+  const run = async (
+    action: () => Promise<Awaited<ReturnType<typeof api.overview>>>,
+    success: string,
+  ) => {
     try {
       refresh(await action());
       toast.success(success);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong.");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong.",
+      );
     }
   };
 
@@ -81,7 +93,9 @@ export function McpView() {
   const toggle = (row: McpRow, tool: ToolId, enabled: boolean) =>
     run(
       () => api.setTarget(row.id, tool, enabled),
-      enabled ? `Added ${row.name} to ${toolLabel(tool)}` : `Removed ${row.name} from ${toolLabel(tool)}`,
+      enabled
+        ? `Added ${row.name} to ${toolLabel(tool)}`
+        : `Removed ${row.name} from ${toolLabel(tool)}`,
     );
 
   return (
@@ -149,9 +163,14 @@ export function McpView() {
                 setEditing(rowToInput(row));
                 setEditorOpen(true);
               }}
-              onDelete={(row) => run(() => api.deleteServer(row.id), `Removed ${row.name}`)}
+              onDelete={(row) =>
+                run(() => api.deleteServer(row.id), `Removed ${row.name}`)
+              }
               onTake={(row, tool) =>
-                run(() => api.takeToolVersion(row.id, tool), `Took ${toolLabel(tool)}'s version of ${row.name}`)
+                run(
+                  () => api.takeToolVersion(row.id, tool),
+                  `Took ${toolLabel(tool)}'s version of ${row.name}`,
+                )
               }
             />
 
@@ -166,7 +185,12 @@ export function McpView() {
                 <ServerTable
                   rows={unmanaged}
                   unmanaged
-                  onImport={(row) => run(() => api.importServer(row.name), `Imported ${row.name}`)}
+                  onImport={(row) =>
+                    run(
+                      () => api.importServer(row.name),
+                      `Imported ${row.name}`,
+                    )
+                  }
                 />
               </div>
             ) : null}
@@ -180,7 +204,9 @@ export function McpView() {
         onOpenChange={setEditorOpen}
         onSave={async (server) => {
           refresh(await api.saveServer(server));
-          toast.success(editing ? `Updated ${server.name}` : `Added ${server.name}`);
+          toast.success(
+            editing ? `Updated ${server.name}` : `Added ${server.name}`,
+          );
         }}
       />
     </>
@@ -236,10 +262,15 @@ function ServerTable({
                 </span>
               </TableCell>
               <TableCell>
-                <span className="text-secondary">{TRANSPORT_LABEL[row.transport]}</span>
+                <span className="text-secondary">
+                  {TRANSPORT_LABEL[row.transport]}
+                </span>
               </TableCell>
               <TableCell>
-                <span className="block max-w-64 truncate text-tertiary" title={row.summary}>
+                <span
+                  className="block max-w-64 truncate text-tertiary"
+                  title={row.summary}
+                >
                   {row.summary || "—"}
                 </span>
               </TableCell>
@@ -253,7 +284,9 @@ function ServerTable({
                     <Checkbox
                       aria-label={`${row.name} in ${tool.label}`}
                       checked={row.targets[tool.id]}
-                      onCheckedChange={(checked) => onToggle?.(row, tool.id, checked === true)}
+                      onCheckedChange={(checked) =>
+                        onToggle?.(row, tool.id, checked === true)
+                      }
                     />
                   )}
                 </TableCell>
@@ -278,9 +311,14 @@ function ServerTable({
                 <TableRow>{cells}</TableRow>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem onSelect={() => onEdit?.(row)}>Edit</ContextMenuItem>
+                <ContextMenuItem onSelect={() => onEdit?.(row)}>
+                  Edit
+                </ContextMenuItem>
                 {row.driftedTools.map((tool) => (
-                  <ContextMenuItem key={tool} onSelect={() => onTake?.(row, tool)}>
+                  <ContextMenuItem
+                    key={tool}
+                    onSelect={() => onTake?.(row, tool)}
+                  >
                     Use {toolLabel(tool)}'s version
                   </ContextMenuItem>
                 ))}

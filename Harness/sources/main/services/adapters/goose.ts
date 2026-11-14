@@ -6,7 +6,8 @@ import { kvToRecord, type DiscoveredMcp, type McpServer } from "../types.js";
 
 function scalar(value: unknown): string {
   if (typeof value === "string") return value;
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (typeof value === "number" || typeof value === "boolean")
+    return String(value);
   // Map keys come back as Scalar nodes, whose value lives one level down.
   if (typeof value === "object" && value !== null && "value" in value) {
     return scalar((value as { value: unknown }).value);
@@ -17,21 +18,26 @@ function scalar(value: unknown): string {
 function readExtension(name: string, node: YAMLMap): RawMcp | null {
   const type = scalar(node.get("type"));
   // builtin and platform extensions ship with Goose. Harness never owns them.
-  if (type !== "stdio" && type !== "streamable_http" && type !== "sse") return null;
+  if (type !== "stdio" && type !== "streamable_http" && type !== "sse")
+    return null;
 
   const argsNode = node.get("args");
-  const args = isSeq(argsNode) ? argsNode.items.map((item) => scalar(item)) : [];
+  const args = isSeq(argsNode)
+    ? argsNode.items.map((item) => scalar(item))
+    : [];
 
   const envNode = node.get("envs");
   const env: Record<string, string> = {};
   if (isMap(envNode)) {
-    for (const pair of envNode.items) env[scalar(pair.key)] = scalar(pair.value);
+    for (const pair of envNode.items)
+      env[scalar(pair.key)] = scalar(pair.value);
   }
 
   const headerNode = node.get("headers");
   const headers: Record<string, string> = {};
   if (isMap(headerNode)) {
-    for (const pair of headerNode.items) headers[scalar(pair.key)] = scalar(pair.value);
+    for (const pair of headerNode.items)
+      headers[scalar(pair.key)] = scalar(pair.value);
   }
 
   const timeout = node.get("timeout");
@@ -54,7 +60,9 @@ function extensionsOf(doc: ReturnType<typeof parseDocument>): YAMLMap | null {
   return isMap(extensions) ? extensions : null;
 }
 
-export async function readGooseMcp(file: string): Promise<{ found: DiscoveredMcp[]; raw: RawMcp[] }> {
+export async function readGooseMcp(
+  file: string,
+): Promise<{ found: DiscoveredMcp[]; raw: RawMcp[] }> {
   const text = await readText(file);
   if (text === null) return { found: [], raw: [] };
 
@@ -76,19 +84,22 @@ const EXTENSION_KEY = /^ {2}([A-Za-z0-9_-]+):\s*$/;
 /** Renders one extension in the same two-space style Goose already uses. */
 function renderExtension(server: McpServer): string {
   const lines = [`  ${server.name}:`];
-  const add = (key: string, value: string) => lines.push(`    ${key}: ${value}`);
+  const add = (key: string, value: string) =>
+    lines.push(`    ${key}: ${value}`);
 
   if (server.transport === "stdio") {
     if (server.args.length > 0) {
       lines.push("    args:");
-      for (const arg of server.args) lines.push(`      - ${JSON.stringify(arg)}`);
+      for (const arg of server.args)
+        lines.push(`      - ${JSON.stringify(arg)}`);
     }
     add("cmd", JSON.stringify(server.command));
     add("enabled", "true");
     const env = kvToRecord(server.env);
     if (Object.keys(env).length > 0) {
       lines.push("    envs:");
-      for (const [key, value] of Object.entries(env)) lines.push(`      ${key}: ${JSON.stringify(value)}`);
+      for (const [key, value] of Object.entries(env))
+        lines.push(`      ${key}: ${JSON.stringify(value)}`);
     }
     add("name", JSON.stringify(server.name));
     add("timeout", String(server.timeoutSec ?? 300));
@@ -141,7 +152,8 @@ export async function writeGooseMcp(
       continue;
     }
     // A new top-level key or a sibling extension ends the skipped block.
-    if (skipping && (/^\S/.test(line) || EXTENSION_KEY.test(line))) skipping = null;
+    if (skipping && (/^\S/.test(line) || EXTENSION_KEY.test(line)))
+      skipping = null;
     if (!skipping) kept.push(line);
   }
 
@@ -150,7 +162,11 @@ export async function writeGooseMcp(
     .map(renderExtension)
     .join("\n");
 
-  const keptLines = kept.join("\n").replace(/\n{3,}/g, "\n\n").replace(/\n+$/, "").split("\n");
+  const keptLines = kept
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/\n+$/, "")
+    .split("\n");
 
   if (additions) {
     // The new block belongs inside the extensions section, directly after its

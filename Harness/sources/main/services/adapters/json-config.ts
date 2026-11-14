@@ -17,7 +17,9 @@ export interface JsonAdapterOptions {
   serialize: (server: McpServer) => Record<string, unknown>;
 }
 
-export async function readJsonMcp(file: string): Promise<{ found: DiscoveredMcp[]; raw: RawMcp[] }> {
+export async function readJsonMcp(
+  file: string,
+): Promise<{ found: DiscoveredMcp[]; raw: RawMcp[] }> {
   const text = await readText(file);
   if (text === null) return { found: [], raw: [] };
 
@@ -54,7 +56,9 @@ export async function writeJsonMcp(
       const value: unknown = JSON.parse(text);
       if (isRecord(value)) parsed = value;
     } catch {
-      throw new Error(`${options.file} isn't valid JSON, so Harness won't write to it.`);
+      throw new Error(
+        `${options.file} isn't valid JSON, so Harness won't write to it.`,
+      );
     }
   }
 
@@ -65,7 +69,8 @@ export async function writeJsonMcp(
     if (!desired.some((server) => server.name === name)) delete servers[name];
   }
   for (const server of desired) {
-    if (ownedSet.has(server.name)) servers[server.name] = options.serialize(server);
+    if (ownedSet.has(server.name))
+      servers[server.name] = options.serialize(server);
   }
 
   parsed.mcpServers = servers;
@@ -76,7 +81,10 @@ export async function writeJsonMcp(
     if (fresh !== null) {
       const again = JSON.parse(fresh) as Record<string, unknown>;
       again.mcpServers = servers;
-      await writeTextAtomic(options.file, `${JSON.stringify(again, null, 2)}\n`);
+      await writeTextAtomic(
+        options.file,
+        `${JSON.stringify(again, null, 2)}\n`,
+      );
       return;
     }
   }
@@ -96,7 +104,10 @@ export function serializeClaude(server: McpServer): Record<string, unknown> {
     if (Object.keys(env).length > 0) out.env = env;
     return out;
   }
-  const out: Record<string, unknown> = { type: server.transport, url: server.url };
+  const out: Record<string, unknown> = {
+    type: server.transport,
+    url: server.url,
+  };
   const headers = kvToRecord(server.headers);
   if (Object.keys(headers).length > 0) out.headers = headers;
   return out;
@@ -108,7 +119,10 @@ export function serializeClaude(server: McpServer): Record<string, unknown> {
  */
 export function serializeDesktop(server: McpServer): Record<string, unknown> {
   if (server.transport === "stdio") {
-    const out: Record<string, unknown> = { command: server.command, args: server.args };
+    const out: Record<string, unknown> = {
+      command: server.command,
+      args: server.args,
+    };
     const env = kvToRecord(server.env);
     if (Object.keys(env).length > 0) out.env = env;
     return out;
@@ -116,7 +130,8 @@ export function serializeDesktop(server: McpServer): Record<string, unknown> {
 
   const args = ["-y", "mcp-remote", server.url];
   for (const header of server.headers) {
-    if (header.key.trim()) args.push("--header", `${header.key}: ${header.value}`);
+    if (header.key.trim())
+      args.push("--header", `${header.key}: ${header.value}`);
   }
   return { command: "npx", args };
 }

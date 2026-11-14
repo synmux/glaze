@@ -1,5 +1,9 @@
 import { sameDefinition } from "./adapters/mcp-core.js";
-import { readAllMcp, writeToolMcp, type ToolMcpSnapshot } from "./adapters/index.js";
+import {
+  readAllMcp,
+  writeToolMcp,
+  type ToolMcpSnapshot,
+} from "./adapters/index.js";
 import { loadLibrary, updateLibrary } from "./library-store.js";
 import {
   emptyTargets,
@@ -32,7 +36,12 @@ export interface McpRow {
 
 export interface SyncOverview {
   rows: McpRow[];
-  tools: { id: ToolId; installed: boolean; configFile: string | null; error: string | null }[];
+  tools: {
+    id: ToolId;
+    installed: boolean;
+    configFile: string | null;
+    error: string | null;
+  }[];
   pendingChanges: number;
 }
 
@@ -43,14 +52,18 @@ function desiredFor(library: Library, tool: ToolId): McpServer[] {
 export async function syncOverview(): Promise<SyncOverview> {
   const library = await loadLibrary();
   const snapshots = await readAllMcp();
-  const byTool = new Map(snapshots.map((snapshot) => [snapshot.tool, snapshot]));
+  const byTool = new Map(
+    snapshots.map((snapshot) => [snapshot.tool, snapshot]),
+  );
 
   const rows: McpRow[] = library.mcpServers.map((server) => {
     // Only a tool where the server exists but differs counts as "drift" (take-able).
     // A tool where it's simply missing just needs to be applied, not taken from.
     const driftedTools = TOOL_IDS.filter((tool) => {
       if (!server.targets[tool]) return false;
-      const raw = byTool.get(tool)?.raw.find((entry) => entry.name === server.name);
+      const raw = byTool
+        .get(tool)
+        ?.raw.find((entry) => entry.name === server.name);
       return raw != null && !sameDefinition(server, raw);
     });
     const missingTools = TOOL_IDS.filter((tool) => {
@@ -60,7 +73,9 @@ export async function syncOverview(): Promise<SyncOverview> {
 
     const presentIn = {} as Record<ToolId, boolean>;
     for (const tool of TOOL_IDS) {
-      presentIn[tool] = byTool.get(tool)?.raw.some((entry) => entry.name === server.name) ?? false;
+      presentIn[tool] =
+        byTool.get(tool)?.raw.some((entry) => entry.name === server.name) ??
+        false;
     }
 
     return {
@@ -71,7 +86,12 @@ export async function syncOverview(): Promise<SyncOverview> {
       summary: mcpSummary(server),
       targets: { ...server.targets },
       presentIn,
-      status: driftedTools.length > 0 ? "drift" : missingTools.length > 0 ? "pending" : "in-sync",
+      status:
+        driftedTools.length > 0
+          ? "drift"
+          : missingTools.length > 0
+            ? "pending"
+            : "in-sync",
       driftedTools,
     };
   });
@@ -92,7 +112,8 @@ export async function syncOverview(): Promise<SyncOverview> {
     const first = copies[0];
     const presentIn = {} as Record<ToolId, boolean>;
     for (const tool of TOOL_IDS) {
-      presentIn[tool] = byTool.get(tool)?.found.some((entry) => entry.name === name) ?? false;
+      presentIn[tool] =
+        byTool.get(tool)?.found.some((entry) => entry.name === name) ?? false;
     }
     rows.push({
       id: `unmanaged:${name}`,
@@ -107,7 +128,10 @@ export async function syncOverview(): Promise<SyncOverview> {
     });
   }
 
-  rows.sort((a, b) => Number(a.managed) - Number(b.managed) || a.name.localeCompare(b.name));
+  rows.sort(
+    (a, b) =>
+      Number(a.managed) - Number(b.managed) || a.name.localeCompare(b.name),
+  );
 
   return {
     rows,
@@ -117,12 +141,17 @@ export async function syncOverview(): Promise<SyncOverview> {
       configFile: snapshot.configFile,
       error: snapshot.error,
     })),
-    pendingChanges: rows.filter((row) => row.status === "drift" || row.status === "pending").length,
+    pendingChanges: rows.filter(
+      (row) => row.status === "drift" || row.status === "pending",
+    ).length,
   };
 }
 
 /** Writes the library's desired state into one tool, touching only owned names. */
-export async function applyTool(tool: ToolId, library?: Library): Promise<void> {
+export async function applyTool(
+  tool: ToolId,
+  library?: Library,
+): Promise<void> {
   const current = library ?? (await loadLibrary());
   const owned = new Set(current.ownedMcp[tool]);
   for (const server of current.mcpServers) {
@@ -137,7 +166,10 @@ export async function applyTool(tool: ToolId, library?: Library): Promise<void> 
 export async function applyAll(): Promise<void> {
   const library = await loadLibrary();
   for (const tool of TOOL_IDS) {
-    if (library.ownedMcp[tool].length === 0 && !library.mcpServers.some((s) => s.targets[tool])) {
+    if (
+      library.ownedMcp[tool].length === 0 &&
+      !library.mcpServers.some((s) => s.targets[tool])
+    ) {
       continue;
     }
     await applyTool(tool, library);
@@ -152,11 +184,15 @@ export async function importFromTool(name: string): Promise<McpServer> {
       tool: snapshot.tool,
       raw: snapshot.raw.find((entry) => entry.name === name),
     }))
-    .filter((source): source is { tool: ToolId; raw: NonNullable<typeof source.raw> } =>
-      Boolean(source.raw),
+    .filter(
+      (
+        source,
+      ): source is { tool: ToolId; raw: NonNullable<typeof source.raw> } =>
+        Boolean(source.raw),
     );
 
-  if (sources.length === 0) throw new Error(`${name} wasn't found in any tool.`);
+  if (sources.length === 0)
+    throw new Error(`${name} wasn't found in any tool.`);
 
   const base = sources[0].raw;
   const targets = emptyTargets();
@@ -176,7 +212,9 @@ export async function importFromTool(name: string): Promise<McpServer> {
   };
 
   await updateLibrary((library) => {
-    library.mcpServers = library.mcpServers.filter((entry) => entry.name !== name);
+    library.mcpServers = library.mcpServers.filter(
+      (entry) => entry.name !== name,
+    );
     library.mcpServers.push(server);
     for (const source of sources) {
       if (!library.ownedMcp[source.tool].includes(name)) {
@@ -190,10 +228,16 @@ export async function importFromTool(name: string): Promise<McpServer> {
 
 export async function saveServer(input: McpServer): Promise<void> {
   const library = await loadLibrary();
-  const index = library.mcpServers.findIndex((server) => server.id === input.id);
+  const index = library.mcpServers.findIndex(
+    (server) => server.id === input.id,
+  );
   const previous = index >= 0 ? library.mcpServers[index] : null;
 
-  if (library.mcpServers.some((server) => server.name === input.name && server.id !== input.id)) {
+  if (
+    library.mcpServers.some(
+      (server) => server.name === input.name && server.id !== input.id,
+    )
+  ) {
     throw new Error(`There's already a server named ${input.name}.`);
   }
 
@@ -237,12 +281,17 @@ export async function deleteServer(id: string): Promise<void> {
   if (library.settings.autoApply) await applyAll();
 }
 
-export async function setTarget(id: string, tool: ToolId, enabled: boolean): Promise<void> {
+export async function setTarget(
+  id: string,
+  tool: ToolId,
+  enabled: boolean,
+): Promise<void> {
   const library = await loadLibrary();
   const server = library.mcpServers.find((entry) => entry.id === id);
   if (!server) throw new Error("That server isn't in the library.");
   server.targets[tool] = enabled;
-  if (!library.ownedMcp[tool].includes(server.name)) library.ownedMcp[tool].push(server.name);
+  if (!library.ownedMcp[tool].includes(server.name))
+    library.ownedMcp[tool].push(server.name);
 
   const { saveLibrary } = await import("./library-store.js");
   await saveLibrary(library);
@@ -255,7 +304,8 @@ export async function takeToolVersion(id: string, tool: ToolId): Promise<void> {
   const library = await loadLibrary();
   const server = library.mcpServers.find((entry) => entry.id === id);
   const raw = snapshot?.raw.find((entry) => entry.name === server?.name);
-  if (!server || !raw) throw new Error("Couldn't find that server in the tool.");
+  if (!server || !raw)
+    throw new Error("Couldn't find that server in the tool.");
 
   server.transport = raw.transport;
   server.command = raw.command;

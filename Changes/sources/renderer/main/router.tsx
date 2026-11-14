@@ -1,4 +1,9 @@
-import { createMemoryHistory, createRootRouteWithContext, createRoute, createRouter } from "@tanstack/react-router";
+import {
+  createMemoryHistory,
+  createRootRouteWithContext,
+  createRoute,
+  createRouter,
+} from "@tanstack/react-router";
 import { HomeView } from "./home-view";
 import { RootView } from "./root-view";
 import { QueryClient } from "@tanstack/react-query";

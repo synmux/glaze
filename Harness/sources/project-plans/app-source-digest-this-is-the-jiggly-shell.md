@@ -1,9 +1,11 @@
 # Harness: one place to manage AI skills, plugins and MCP servers
 
 ## Context
+
 You use four AI tools, and each one keeps its own copy of MCP servers, skills and plugins in a different file format. Harness becomes the single source of truth. It keeps a central library, you tick which tools get each item, and Harness writes the right format into each tool's config. Anything it doesn't manage stays untouched.
 
 Decisions you made:
+
 - Central library with sync.
 - First version includes: MCP add/edit/remove, enable/disable per tool, copy between tools, and skills folders.
 - Sidebar organized by type.
@@ -11,19 +13,22 @@ Decisions you made:
 - Remote MCP servers reach Claude Desktop through `mcp-remote`.
 
 ## What each tool supports (from your real files)
-| | MCP servers | Skills | Plugins |
-|---|---|---|---|
-| **Claude Code** | `~/.claude.json` → `mcpServers` (stdio `{type,command,args,env}`, http/sse `{type,url,headers}`) | `~/.claude/skills/<name>` (symlinks) | `~/.claude/settings.json` → `enabledPlugins["name@marketplace"]`, plus `plugins/installed_plugins.json` |
-| **Claude Desktop** | `claude_desktop_config.json` → `mcpServers` (local only; remote servers bridged as `npx -y mcp-remote <url> --header K:V`) | — (not file-based) | — |
-| **Codex** | `~/.codex/config.toml` → `[mcp_servers.<name>]` (`command,args,env` / `url,http_headers`, `enabled`, `startup_timeout_sec`) | `~/.agents/skills/<name>` (symlinks) | `[plugins."name@market"] enabled` |
-| **Goose** | `~/.config/goose/config.yaml` → `extensions.<key>` (`type: stdio` `cmd,args,envs,timeout,enabled`; `type: streamable_http` `uri,headers`). `builtin`/`platform` entries are never touched | `~/.config/goose/skills/<name>` (symlinks) | — |
+
+|                    | MCP servers                                                                                                                                                                               | Skills                                     | Plugins                                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| **Claude Code**    | `~/.claude.json` → `mcpServers` (stdio `{type,command,args,env}`, http/sse `{type,url,headers}`)                                                                                          | `~/.claude/skills/<name>` (symlinks)       | `~/.claude/settings.json` → `enabledPlugins["name@marketplace"]`, plus `plugins/installed_plugins.json` |
+| **Claude Desktop** | `claude_desktop_config.json` → `mcpServers` (local only; remote servers bridged as `npx -y mcp-remote <url> --header K:V`)                                                                | — (not file-based)                         | —                                                                                                       |
+| **Codex**          | `~/.codex/config.toml` → `[mcp_servers.<name>]` (`command,args,env` / `url,http_headers`, `enabled`, `startup_timeout_sec`)                                                               | `~/.agents/skills/<name>` (symlinks)       | `[plugins."name@market"] enabled`                                                                       |
+| **Goose**          | `~/.config/goose/config.yaml` → `extensions.<key>` (`type: stdio` `cmd,args,envs,timeout,enabled`; `type: streamable_http` `uri,headers`). `builtin`/`platform` entries are never touched | `~/.config/goose/skills/<name>` (symlinks) | —                                                                                                       |
 
 Grid cells marked "—" show a disabled checkbox with an explanation.
 
 ## Architecture
+
 The backend does all file work: reading and writing configs, symlinks and backups. The renderer is UI only and talks to the backend through the existing `window.glazeAPI.glaze.ipc`.
 
 **Library storage:** everything lives under `app.getPath("userData")`.
+
 - `library.json`: MCP servers in a neutral shape `{id, name, transport: stdio|http|sse, command, args, env, url, headers, timeoutSec, targets: {claudeCode, claudeDesktop, codex, goose}}`, the skill targets, and a list of names Harness owns in each tool.
 - `library/skills/<name>/`: master SKILL.md folders.
 - `backups/<timestamp>/`: a copy of every config file just before Harness writes it. A setting controls how many are kept.
@@ -31,6 +36,7 @@ The backend does all file work: reading and writing configs, symlinks and backup
 **Ownership rule:** sync only adds, updates or removes entries whose names appear in the library's owned-names list for that tool. Unmanaged entries show up as **Not managed** rows with an **Import** action.
 
 ### Backend files (`main/`)
+
 - `services/harness-paths.ts`: resolves each tool's paths and checks which tools are installed.
 - `services/library-store.ts`: loads and saves `library.json` (atomic write via temp file + rename).
 - `services/backup.ts`: copies a config before every write and trims old backups.
@@ -57,6 +63,7 @@ The backend does all file work: reading and writing configs, symlinks and backup
 New dependencies: `smol-toml` and `yaml`.
 
 ### Frontend (`renderer/`)
+
 - **Window:** 1120×740, minimum 820×520 (`main/index.ts`).
 - **Sidebar** (`root-view.tsx` using the SplitView sidebar):
   - **MCP Servers**, **Skills**, **Plugins**, each with a count.
@@ -78,11 +85,13 @@ New dependencies: `smol-toml` and `yaml`.
 - **Data loading:** React Query keyed per resource, refreshed on the `harness:changed` notification.
 
 ## Safety
+
 - Back up before every write. Writes are atomic. Unrelated keys and comments are never removed.
 - Secrets in env vars and headers are kept in `library.json` inside Harness's private data folder. They are already plain text in the tools' own configs. The UI masks them.
 - The first launch writes nothing. Harness only reads, then offers **Import** to build the library.
 
 ## Verification
+
 1. Build and launch.
 2. Check that the sidebar, all three views and the per-tool grids show your real servers and skills (14 Claude Code servers, 11 Desktop servers, and so on). Everything should start in **Not managed**.
 3. Import `dash` and enable it for Goose. Confirm that `config.yaml` gains a `dash` stdio extension, the other keys and comments are unchanged, and a backup exists.

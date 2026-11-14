@@ -8,7 +8,13 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
-import { app, BrowserWindow, Menu, logger, initDevToolsButtonState } from "@glaze/core/backend";
+import {
+  app,
+  BrowserWindow,
+  Menu,
+  logger,
+  initDevToolsButtonState,
+} from "@glaze/core/backend";
 
 import { registerHandlers } from "./handlers/index.js";
 import { getPreloadPath, getWindowUrl } from "./windows/window-paths.js";
@@ -42,7 +48,8 @@ if (process.env.GLAZE_DEV_HARNESS === "1") {
   devHarness = (await import("./dev/parity-autotest.js")) as DevHarness;
   devHarness.applyParityScenarioStartup();
   // @ts-ignore dev-only harness; present only in the template, excluded from scaffolded apps
-  appAiDevHarness = (await import("./dev/app-ai-autotest.js")) as AppAiDevHarness;
+  appAiDevHarness =
+    (await import("./dev/app-ai-autotest.js")) as AppAiDevHarness;
 }
 
 // ── State ─────────────────────────────────────────────────────────────
@@ -67,8 +74,13 @@ async function createMainWindow() {
 
   try {
     if (fs.existsSync(packageJsonPath)) {
-      const packageJson = JSON.parse(await fs.promises.readFile(packageJsonPath, "utf-8"));
-      windowTitle = packageJson.productName || packageJson.appConfig?.displayName || windowTitle;
+      const packageJson = JSON.parse(
+        await fs.promises.readFile(packageJsonPath, "utf-8"),
+      );
+      windowTitle =
+        packageJson.productName ||
+        packageJson.appConfig?.displayName ||
+        windowTitle;
     }
   } catch {
     // Use defaults
@@ -102,9 +114,13 @@ async function createMainWindow() {
   // Wait for ready-to-show event before showing window (prevents flickering)
   mainWindow.once("ready-to-show", () => {
     const showStartTime = Date.now();
-    logger.info("main", "⏱️ [COLD_START] ready-to-show event received, showing window", {
-      timestamp: new Date().toISOString(),
-    });
+    logger.info(
+      "main",
+      "⏱️ [COLD_START] ready-to-show event received, showing window",
+      {
+        timestamp: new Date().toISOString(),
+      },
+    );
 
     mainWindow?.show();
 
@@ -129,10 +145,14 @@ async function createMainWindow() {
   await mainWindow.loadURL(url);
 
   const loadURLEndTime = Date.now();
-  logger.info("main", "⏱️ [COLD_START] URL loaded in window (waiting for ready-to-show)", {
-    timestamp: new Date().toISOString(),
-    duration_ms: loadURLEndTime - loadURLStartTime,
-  });
+  logger.info(
+    "main",
+    "⏱️ [COLD_START] URL loaded in window (waiting for ready-to-show)",
+    {
+      timestamp: new Date().toISOString(),
+      duration_ms: loadURLEndTime - loadURLStartTime,
+    },
+  );
 }
 
 // ── Application menu ──────────────────────────────────────────────────

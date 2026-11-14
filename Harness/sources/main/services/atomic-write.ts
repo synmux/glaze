@@ -4,7 +4,10 @@ import * as path from "path";
 import { backupFile } from "./backup.js";
 
 /** Backs up the current file, then replaces it atomically. */
-export async function writeTextAtomic(filePath: string, contents: string): Promise<void> {
+export async function writeTextAtomic(
+  filePath: string,
+  contents: string,
+): Promise<void> {
   await backupFile(filePath);
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   const temp = `${filePath}.${process.pid}.tmp`;

@@ -13,10 +13,16 @@ export interface DiffLine {
 function lcsDiff(oldLines: string[], newLines: string[]): DiffLine[] {
   const n = oldLines.length;
   const m = newLines.length;
-  const dp: Uint32Array[] = Array.from({ length: n + 1 }, () => new Uint32Array(m + 1));
+  const dp: Uint32Array[] = Array.from(
+    { length: n + 1 },
+    () => new Uint32Array(m + 1),
+  );
   for (let i = n - 1; i >= 0; i--) {
     for (let j = m - 1; j >= 0; j--) {
-      dp[i][j] = oldLines[i] === newLines[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+      dp[i][j] =
+        oldLines[i] === newLines[j]
+          ? dp[i + 1][j + 1] + 1
+          : Math.max(dp[i + 1][j], dp[i][j + 1]);
     }
   }
 
@@ -52,7 +58,11 @@ function condense(ops: DiffLine[]): DiffLine[] {
   const keep = new Array<boolean>(ops.length).fill(false);
   for (let idx = 0; idx < ops.length; idx++) {
     if (ops[idx].type === "context") continue;
-    for (let k = Math.max(0, idx - CONTEXT_LINES); k <= Math.min(ops.length - 1, idx + CONTEXT_LINES); k++) {
+    for (
+      let k = Math.max(0, idx - CONTEXT_LINES);
+      k <= Math.min(ops.length - 1, idx + CONTEXT_LINES);
+      k++
+    ) {
       keep[k] = true;
     }
   }
@@ -65,13 +75,19 @@ function condense(ops: DiffLine[]): DiffLine[] {
       continue;
     }
     if (skipped > 0) {
-      result.push({ type: "skip", text: `${skipped} unchanged line${skipped === 1 ? "" : "s"}` });
+      result.push({
+        type: "skip",
+        text: `${skipped} unchanged line${skipped === 1 ? "" : "s"}`,
+      });
       skipped = 0;
     }
     result.push(ops[idx]);
   }
   if (skipped > 0) {
-    result.push({ type: "skip", text: `${skipped} unchanged line${skipped === 1 ? "" : "s"}` });
+    result.push({
+      type: "skip",
+      text: `${skipped} unchanged line${skipped === 1 ? "" : "s"}`,
+    });
   }
   return result;
 }
@@ -86,14 +102,25 @@ export function computeLineDiff(oldText: string, newText: string): DiffLine[] {
 
   const oldLines = oldText.split("\n");
   const newLines = newText.split("\n");
-  if (oldLines.length > MAX_LINES_TO_DIFF || newLines.length > MAX_LINES_TO_DIFF) {
-    return [{ type: "skip", text: "Diff not shown — content is too large to compare line by line" }];
+  if (
+    oldLines.length > MAX_LINES_TO_DIFF ||
+    newLines.length > MAX_LINES_TO_DIFF
+  ) {
+    return [
+      {
+        type: "skip",
+        text: "Diff not shown — content is too large to compare line by line",
+      },
+    ];
   }
 
   const condensed = condense(lcsDiff(oldLines, newLines));
   if (condensed.length <= MAX_OUTPUT_LINES) return condensed;
 
   const truncated = condensed.slice(0, MAX_OUTPUT_LINES);
-  truncated.push({ type: "skip", text: "Diff truncated — too many changed lines to display" });
+  truncated.push({
+    type: "skip",
+    text: "Diff truncated — too many changed lines to display",
+  });
   return truncated;
 }

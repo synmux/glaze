@@ -43,10 +43,16 @@ async function trimBackups(): Promise<void> {
 
   const sorted = entries.filter((name) => !name.startsWith(".")).sort();
   const extra = sorted.slice(0, Math.max(0, sorted.length - keep));
-  await Promise.all(extra.map((name) => fs.rm(path.join(root, name), { recursive: true, force: true })));
+  await Promise.all(
+    extra.map((name) =>
+      fs.rm(path.join(root, name), { recursive: true, force: true }),
+    ),
+  );
 }
 
-export async function listBackups(): Promise<{ name: string; files: string[] }[]> {
+export async function listBackups(): Promise<
+  { name: string; files: string[] }[]
+> {
   const root = backupsDir();
   let entries: string[];
   try {
@@ -55,10 +61,15 @@ export async function listBackups(): Promise<{ name: string; files: string[] }[]
     return [];
   }
 
-  const sorted = entries.filter((name) => !name.startsWith(".")).sort().reverse();
+  const sorted = entries
+    .filter((name) => !name.startsWith("."))
+    .sort()
+    .reverse();
   const result = [];
   for (const name of sorted.slice(0, 30)) {
-    const files = await fs.readdir(path.join(root, name)).catch(() => [] as string[]);
+    const files = await fs
+      .readdir(path.join(root, name))
+      .catch(() => [] as string[]);
     result.push({ name, files });
   }
   return result;

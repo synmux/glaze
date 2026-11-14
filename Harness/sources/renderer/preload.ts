@@ -116,7 +116,9 @@ function ensureSystemPreferencesNotificationListener(): void {
     "systemPreferences:notification",
     (params: unknown) => {
       const payload = params as SystemPreferencesNotificationPayload;
-      const callback = systemPreferencesNotificationCallbacks.get(payload.subscriptionId);
+      const callback = systemPreferencesNotificationCallbacks.get(
+        payload.subscriptionId,
+      );
       if (!callback) {
         return;
       }
@@ -280,7 +282,8 @@ const glazeAPI = {
   // Native Theme APIs - For theme detection and switching
   // -------------------------------------------------------------------------
   nativeTheme: {
-    getInfo: (): Promise<NativeThemeInfo> => ipcRenderer.invoke("nativeTheme:getInfo"),
+    getInfo: (): Promise<NativeThemeInfo> =>
+      ipcRenderer.invoke("nativeTheme:getInfo"),
 
     setThemeSource: (source: "system" | "light" | "dark"): Promise<boolean> =>
       ipcRenderer.invoke("nativeTheme:setThemeSource", source),
@@ -296,7 +299,9 @@ const glazeAPI = {
   // Minimal permissions APIs used by the template examples
   // -------------------------------------------------------------------------
   systemPreferences: {
-    getMediaAccessStatus: (mediaType: MediaAccessType): Promise<PermissionStatus> =>
+    getMediaAccessStatus: (
+      mediaType: MediaAccessType,
+    ): Promise<PermissionStatus> =>
       ipcRenderer.invoke("systemPreferences:getMediaAccessStatus", mediaType),
 
     askForMediaAccess: (mediaType: AskForMediaAccessType): Promise<boolean> =>
@@ -305,11 +310,14 @@ const glazeAPI = {
     requestScreenCaptureAccess: (): Promise<boolean> =>
       ipcRenderer.invoke("systemPreferences:requestScreenCaptureAccess"),
 
-    getAuthorizationStatus: (type: SystemPreferencesAuthorizationType): Promise<PermissionStatus> =>
+    getAuthorizationStatus: (
+      type: SystemPreferencesAuthorizationType,
+    ): Promise<PermissionStatus> =>
       ipcRenderer.invoke("systemPreferences:getAuthorizationStatus", type),
 
-    getPreferredScrollerStyle: (): Promise<SystemPreferencesPreferredScrollerStyle> =>
-      ipcRenderer.invoke("systemPreferences:getPreferredScrollerStyle"),
+    getPreferredScrollerStyle:
+      (): Promise<SystemPreferencesPreferredScrollerStyle> =>
+        ipcRenderer.invoke("systemPreferences:getPreferredScrollerStyle"),
 
     subscribeLocalNotification: async (
       event: string | null,
@@ -325,13 +333,18 @@ const glazeAPI = {
     },
 
     unsubscribeLocalNotification: async (id: number): Promise<void> => {
-      await ipcRenderer.invoke("systemPreferences:unsubscribeLocalNotification", id);
+      await ipcRenderer.invoke(
+        "systemPreferences:unsubscribeLocalNotification",
+        id,
+      );
       systemPreferencesNotificationCallbacks.delete(id);
     },
   },
 
   location: {
-    getCurrentPosition: (options?: LocationPositionOptions): Promise<LocationPosition> =>
+    getCurrentPosition: (
+      options?: LocationPositionOptions,
+    ): Promise<LocationPosition> =>
       ipcRenderer.invoke("location:getCurrentPosition", options),
   },
 
@@ -347,8 +360,9 @@ const glazeAPI = {
     popup: (options: PopupOptions): Promise<PopupResult> =>
       ipcRenderer.invoke("Menu:popup", options),
 
-    setApplicationMenu: (template: MenuItemConstructorOptions[] | null): Promise<void> =>
-      ipcRenderer.invoke("Menu:setApplicationMenu", template),
+    setApplicationMenu: (
+      template: MenuItemConstructorOptions[] | null,
+    ): Promise<void> => ipcRenderer.invoke("Menu:setApplicationMenu", template),
   },
 
   // -------------------------------------------------------------------------
@@ -367,7 +381,8 @@ const glazeAPI = {
       /**
        * Send a fire-and-forget message to a backend listener registered with ipcMain.on().
        */
-      send: (channel: string, ...args: unknown[]): void => ipcRenderer.send(channel, ...args),
+      send: (channel: string, ...args: unknown[]): void =>
+        ipcRenderer.send(channel, ...args),
 
       on: (channel: string, callback: GlazeIpcListener): (() => void) =>
         addGlazeIpcListener(channel, callback, false),
@@ -383,16 +398,20 @@ const glazeAPI = {
         args: unknown,
         onChunk: (chunk: TChunk) => void,
         options?: { cancellationId?: string },
-      ): Promise<TResult> => ipcRenderer.stream(channel, args, onChunk, options),
+      ): Promise<TResult> =>
+        ipcRenderer.stream(channel, args, onChunk, options),
 
-      cancelStream: (cancellationId: string): void => ipcRenderer.cancelStream(cancellationId),
+      cancelStream: (cancellationId: string): void =>
+        ipcRenderer.cancelStream(cancellationId),
 
       /**
        * Subscribe to notifications from the backend
        * Returns an unsubscribe function
        */
-      onNotification: (channel: string, callback: (params: unknown) => void): (() => void) =>
-        ipcRenderer.onNotification(channel, callback),
+      onNotification: (
+        channel: string,
+        callback: (params: unknown) => void,
+      ): (() => void) => ipcRenderer.onNotification(channel, callback),
 
       /**
        * Check if connected to the backend

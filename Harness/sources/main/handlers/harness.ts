@@ -1,7 +1,11 @@
 import { dialog, shell } from "@glaze/core/backend";
 
 import { listBackups } from "../services/backup.js";
-import { libraryFile, loadLibrary, saveLibrary } from "../services/library-store.js";
+import {
+  libraryFile,
+  loadLibrary,
+  saveLibrary,
+} from "../services/library-store.js";
 import { listPlugins, setPluginEnabled } from "../services/plugins-service.js";
 import {
   addSkillFromFolder,
@@ -43,7 +47,8 @@ function requireString(value: unknown, label: string): string {
 }
 
 function requireTool(value: unknown): ToolId {
-  if (typeof value === "string" && (TOOL_IDS as string[]).includes(value)) return value as ToolId;
+  if (typeof value === "string" && (TOOL_IDS as string[]).includes(value))
+    return value as ToolId;
   throw new Error("Unknown tool.");
 }
 
@@ -68,7 +73,10 @@ function asServer(value: unknown): McpServer {
 
   const targets = isRecord(value.targets) ? value.targets : {};
   return {
-    id: typeof value.id === "string" && value.id ? value.id : `${Date.now().toString(36)}`,
+    id:
+      typeof value.id === "string" && value.id
+        ? value.id
+        : `${Date.now().toString(36)}`,
     name,
     transport: transport as McpTransport,
     command: typeof value.command === "string" ? value.command : "",
@@ -102,7 +110,11 @@ export const harnessHandlers = {
   },
 
   setTarget: async (id: unknown, tool: unknown, enabled: unknown) => {
-    await setTarget(requireString(id, "Server"), requireTool(tool), enabled === true);
+    await setTarget(
+      requireString(id, "Server"),
+      requireTool(tool),
+      enabled === true,
+    );
     return syncOverview();
   },
 
@@ -124,7 +136,11 @@ export const harnessHandlers = {
   skills: () => listSkills(),
 
   setSkillTarget: async (name: unknown, tool: unknown, enabled: unknown) => {
-    await setSkillTarget(requireString(name, "Skill"), requireTool(tool), enabled === true);
+    await setSkillTarget(
+      requireString(name, "Skill"),
+      requireTool(tool),
+      enabled === true,
+    );
     return listSkills();
   },
 
@@ -161,7 +177,11 @@ export const harnessHandlers = {
     if (which !== "claudeCode" && which !== "codex") {
       throw new Error("Plugins can only be toggled for Claude Code and Codex.");
     }
-    await setPluginEnabled(which, requireString(id, "Plugin"), enabled === true);
+    await setPluginEnabled(
+      which,
+      requireString(id, "Plugin"),
+      enabled === true,
+    );
     return listPlugins();
   },
 
@@ -171,9 +191,13 @@ export const harnessHandlers = {
     if (!isRecord(input)) throw new Error("Missing settings.");
     const library = await loadLibrary();
     if (typeof input.backupKeep === "number") {
-      library.settings.backupKeep = Math.max(1, Math.min(200, Math.round(input.backupKeep)));
+      library.settings.backupKeep = Math.max(
+        1,
+        Math.min(200, Math.round(input.backupKeep)),
+      );
     }
-    if (typeof input.autoApply === "boolean") library.settings.autoApply = input.autoApply;
+    if (typeof input.autoApply === "boolean")
+      library.settings.autoApply = input.autoApply;
     await saveLibrary(library);
     return library.settings;
   },

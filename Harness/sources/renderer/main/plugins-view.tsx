@@ -27,14 +27,20 @@ export function PluginsView() {
   const toggle = async (plugin: PluginView, enabled: boolean) => {
     const previous = queryClient.getQueryData<PluginView[]>(["plugins"]);
     queryClient.setQueryData<PluginView[]>(["plugins"], (current) =>
-      current?.map((entry) => (entry.id === plugin.id && entry.tool === plugin.tool ? { ...entry, enabled } : entry)),
+      current?.map((entry) =>
+        entry.id === plugin.id && entry.tool === plugin.tool
+          ? { ...entry, enabled }
+          : entry,
+      ),
     );
     try {
       const next = await api.setPluginEnabled(plugin.tool, plugin.id, enabled);
       queryClient.setQueryData(["plugins"], next);
     } catch (error) {
       queryClient.setQueryData(["plugins"], previous);
-      toast.error(error instanceof Error ? error.message : "Couldn't update that plugin.");
+      toast.error(
+        error instanceof Error ? error.message : "Couldn't update that plugin.",
+      );
     }
   };
 
@@ -61,7 +67,9 @@ export function PluginsView() {
       ) : (
         <div className="flex flex-col gap-6 pb-8">
           {GROUPS.map((group) => {
-            const groupRows = rows.filter((plugin) => plugin.tool === group.tool);
+            const groupRows = rows.filter(
+              (plugin) => plugin.tool === group.tool,
+            );
             if (groupRows.length === 0) return null;
             return (
               <section key={group.tool}>
@@ -82,16 +90,22 @@ export function PluginsView() {
                           <span className="font-medium">{plugin.name}</span>
                         </TableCell>
                         <TableCell>
-                          {plugin.marketplace ? <Badge>{plugin.marketplace}</Badge> : null}
+                          {plugin.marketplace ? (
+                            <Badge>{plugin.marketplace}</Badge>
+                          ) : null}
                         </TableCell>
                         <TableCell>
-                          <span className="tabular-nums text-tertiary">{plugin.version || "—"}</span>
+                          <span className="tabular-nums text-tertiary">
+                            {plugin.version || "—"}
+                          </span>
                         </TableCell>
                         <TableCell className="text-right">
                           <Switch
                             aria-label={`${plugin.name} enabled`}
                             checked={plugin.enabled}
-                            onCheckedChange={(checked) => toggle(plugin, checked)}
+                            onCheckedChange={(checked) =>
+                              toggle(plugin, checked)
+                            }
                           />
                         </TableCell>
                       </TableRow>

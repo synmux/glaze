@@ -14,7 +14,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const candidates = [
   // Set by the host when it launches a build — independent of where the project lives on disk.
-  ...(process.env.GLAZE_SDK_PATH ? [resolve(process.env.GLAZE_SDK_PATH, "@glaze/core/cli/glaze.js")] : []),
+  ...(process.env.GLAZE_SDK_PATH
+    ? [resolve(process.env.GLAZE_SDK_PATH, "@glaze/core/cli/glaze.js")]
+    : []),
   // Monorepo template development.
   resolve(__dirname, "../glaze-core/cli/glaze.js"),
   // Deployed app: <projects root>/<project>/sources -> <projects root>/.sdk

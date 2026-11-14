@@ -3,6 +3,7 @@
 ## Context
 
 The user wants a macOS **status bar (menu bar) app that keeps the Mac awake**, with three modes:
+
 1. **Indefinite** — stay awake until manually disabled.
 2. **Until a date/time** — pick an end date & time; sleep re‑enables then.
 3. **For a duration** — pick a length of time to stay awake.
@@ -12,6 +13,7 @@ Plus: the ability to **hide the Dock icon**, and a **menu bar status** showing w
 **Implementation choice:** use the SDK‑exported `powerSaveBlocker` (same IOKit power‑assertion mechanism `caffeinate` uses) instead of spawning `caffeinate -disu`. It needs no child process to manage/kill and can't leak an assertion on crash — strictly better here.
 
 **Confirmed with the user:**
+
 - Interface = **menu bar tray + a compact control window** (window opens from the tray/dock).
 - Default power behavior = **system only, allow the screen to turn off** (`prevent-app-suspension`), with a menu/window toggle to also **keep the display on** (`prevent-display-sleep`).
 
@@ -26,11 +28,17 @@ Backend owns all state (single source of truth); the tray and the control window
 - **State model** (backend):
   ```ts
   type Mode = "off" | "indefinite" | "timed";
-  interface KeepAwakeState { active: boolean; mode: Mode; keepDisplayAwake: boolean; endsAt: number | null; }
+  interface KeepAwakeState {
+    active: boolean;
+    mode: Mode;
+    keepDisplayAwake: boolean;
+    endsAt: number | null;
+  }
   ```
 - **Settings** persisted to `app.getPath("userData")/settings.json` (atomic write): `keepDisplayAwake: boolean` (default false), `hideDockIcon: boolean` (default false). Applied on launch.
 
 ### Tray (menu bar)
+
 - Icon = SF Symbol, template rendering (auto light/dark). Inactive: `cup.and.saucer`; active: `cup.and.saucer.fill`. Stable **hardcoded GUID literal** (never generated at runtime).
 - Title = countdown when timed (`setTitle("1:23:45", { fontType: "monospacedDigit" })`), empty otherwise. Tooltip summarizes state.
 - Context menu (rebuilt on every state change so checkmarks/labels are current):
@@ -45,7 +53,9 @@ Backend owns all state (single source of truth); the tray and the control window
   - `Open Caffeinate` (shows the control window) · `Quit` (`app.quit()`).
 
 ### Control window (repurposed main window)
+
 Compact (~360×520, `minWidth` 360 / `minHeight` 480) — see `glaze-window-sizing`. Not the big split view. Contents:
+
 - Large status header with icon + text ("Sleep Allowed" / "Keeping Awake").
 - **Live countdown** when timed (ticked locally in React from `endsAt`, no per‑second IPC).
 - Primary Start/Stop control for indefinite keep‑awake.
@@ -55,6 +65,7 @@ Compact (~360×520, `minWidth` 360 / `minHeight` 480) — see `glaze-window-sizi
 - Closing the window does **not** quit (app stays in the tray); reopen via tray "Open Caffeinate" or the Dock.
 
 ### IPC contract (custom channels via `glaze.ipc.invoke` — no preload changes needed)
+
 - `keepAwake:getStatus` → `KeepAwakeState`
 - `keepAwake:startIndefinite` → starts indefinite
 - `keepAwake:startFor` `(durationMs)` → starts timed
@@ -66,12 +77,14 @@ Compact (~360×520, `minWidth` 360 / `minHeight` 480) — see `glaze-window-sizi
 
 ## Files
 
-**New**
+### New
+
 - `main/services/settings.ts` — `SettingsService` (JSON in `userData`, atomic write, ENOENT‑only default). Reuse the reference implementation from the `glaze-data-storage` skill (`references/json-and-secrets.md`).
 - `main/services/keep-awake.ts` — the state machine: `powerSaveBlocker` start/stop, timed `setTimeout`, 1s tick, `Notification` on expiry, `getStatus()`, `setKeepDisplayAwake()`, and status broadcast.
 - `main/tray/tray-controller.ts` — creates the `Tray`, builds/rebuilds the context menu, updates icon/title/tooltip from state.
 
-**Modified**
+### Modified
+
 - `main/index.ts` — on `ready`: init settings → keep‑awake service → tray; apply `hideDockIcon` (`app.dock.hide()`); create the compact control window (360×520). `activate`: show control window + re‑hide dock if the setting is on (documented macOS re‑show gotcha). `before-quit`/`will-quit`: `powerSaveBlocker.stop`, clear timers, `tray.destroy()`. Keep `window-all-closed` as a no‑op (stay resident in tray). Repoint/trim the App menu "Settings…" to open the control window.
 - `main/handlers/index.ts` — register the `keepAwake:*` and `settings:setHideDock` handlers; wire "Open Caffeinate".
 - `renderer/main/home-view.tsx` — replace template UI with the control panel.
@@ -82,6 +95,7 @@ Compact (~360×520, `minWidth` 360 / `minHeight` 480) — see `glaze-window-sizi
 **Not changed:** `package.json` activationPolicy stays `regular` (Dock shown by default); the Dock icon is hidden at runtime via `app.dock.hide()` so no bundle/Info.plist update is needed.
 
 ## Implementation order
+
 1. `glaze-backend-rules` + `glaze-data-storage` → build `SettingsService`.
 2. `keep-awake.ts` power engine + timers + notification.
 3. `tray-controller.ts` + wire into `main/index.ts` (tray, dock hide, lifecycle cleanup, compact window).
@@ -90,6 +104,7 @@ Compact (~360×520, `minWidth` 360 / `minHeight` 480) — see `glaze-window-sizi
 6. Build (lint + type‑check + build) and validate.
 
 ## Verification
+
 - Build succeeds (lint + type‑check + build), then launch.
 - **Indefinite:** toggle on from the window and from the tray menu → tray icon fills, tooltip/status reflect "keeping awake"; confirm a live `powerSaveBlocker` id is held. Toggle off → released.
 - **Duration:** pick 15 min → tray title shows a monospaced countdown that decrements; control window shows the same live countdown; menu status shows "Awake until …".

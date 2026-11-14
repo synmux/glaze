@@ -63,7 +63,7 @@ function parseAssignment(line: string): { key: string; raw: string } | null {
 }
 
 function unquote(raw: string): string {
-  if (raw.startsWith("\"") && raw.endsWith("\"")) {
+  if (raw.startsWith('"') && raw.endsWith('"')) {
     try {
       return JSON.parse(raw) as string;
     } catch {
@@ -89,7 +89,9 @@ function parseStringArray(raw: string): string[] {
 }
 
 /** Reads Codex's [mcp_servers.*] tables without parsing the rest of the file. */
-export async function readCodexMcp(file: string): Promise<{ found: DiscoveredMcp[]; raw: RawMcp[] }> {
+export async function readCodexMcp(
+  file: string,
+): Promise<{ found: DiscoveredMcp[]; raw: RawMcp[] }> {
   const text = await readText(file);
   if (text === null) return { found: [], raw: [] };
 
@@ -113,8 +115,10 @@ export async function readCodexMcp(file: string): Promise<{ found: DiscoveredMcp
       const assignment = parseAssignment(line);
       if (!assignment) continue;
       if (sub === "env") entry.env[assignment.key] = unquote(assignment.raw);
-      else if (sub === "http_headers") entry.headers[assignment.key] = unquote(assignment.raw);
-      else if (assignment.key === "command") entry.command = unquote(assignment.raw);
+      else if (sub === "http_headers")
+        entry.headers[assignment.key] = unquote(assignment.raw);
+      else if (assignment.key === "command")
+        entry.command = unquote(assignment.raw);
       else if (assignment.key === "url") {
         entry.url = unquote(assignment.raw);
         entry.transport = "http";
@@ -152,7 +156,9 @@ function renderServer(server: McpServer): string {
   const headers = kvToRecord(server.headers);
   let text = tomlStringify({ [`mcp_servers.${server.name}`]: table });
   if (Object.keys(headers).length > 0) {
-    text += tomlStringify({ [`mcp_servers.${server.name}.http_headers`]: headers });
+    text += tomlStringify({
+      [`mcp_servers.${server.name}.http_headers`]: headers,
+    });
   }
   return text.trimEnd();
 }
@@ -171,12 +177,14 @@ export async function writeCodexMcp(
   const ownedSet = new Set(owned);
 
   // No owned blocks to remove and nothing to add: don't touch the file at all.
-  if (!blocks.some((block) => ownedSet.has(block.name)) && desired.length === 0) return;
+  if (!blocks.some((block) => ownedSet.has(block.name)) && desired.length === 0)
+    return;
 
   const kept: string[] = [];
   blocks.forEach((block, index) => {
     kept.push(gaps[index]);
-    if (!ownedSet.has(block.name)) kept.push([block.header, ...block.lines].join("\n"));
+    if (!ownedSet.has(block.name))
+      kept.push([block.header, ...block.lines].join("\n"));
   });
   kept.push(gaps[gaps.length - 1] ?? "");
 
@@ -185,7 +193,10 @@ export async function writeCodexMcp(
     .map(renderServer)
     .join("\n\n");
 
-  let result = kept.join("").replace(/\n{3,}/g, "\n\n").trimEnd();
+  let result = kept
+    .join("")
+    .replace(/\n{3,}/g, "\n\n")
+    .trimEnd();
   if (rendered) result = `${result}\n\n${rendered}`;
   await writeTextAtomic(file, `${result}\n`);
 }
